@@ -8,9 +8,7 @@ import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class MarriageData extends SavedData {
 
@@ -48,6 +46,16 @@ public class MarriageData extends SavedData {
             int giftsGiven = marriageCompound.getInt("giftsGiven");
             int rumorCount = marriageCompound.getInt("rumorCount");
 
+            List<MarriageInteraction> interactionList = new ArrayList<>();
+            CompoundTag marriageInteractions = marriageCompound.getCompound("marriageInteractions");
+            for (String interactionId : marriageInteractions.getAllKeys()) {
+                CompoundTag interaction = marriageInteractions.getCompound(interactionId);
+                MarriageInteractionType type = MarriageInteractionType.valueOf(interaction.getString("type"));
+                long timeOfInteraction = interaction.getLong("timeOfInteraction");
+                int hearthsChanged = interaction.getInt("hearthsChanged");
+                interactionList.add(new MarriageInteraction(type, timeOfInteraction, hearthsChanged));
+            }
+
             Marriage marriage = new Marriage(player1, player2, timeOfMarriage, timesKissed);
             marriage.setHearths(hearths);
             marriage.setHearthsEarned(hearthsEarned);
@@ -56,6 +64,7 @@ public class MarriageData extends SavedData {
             marriage.setTimesSleptApart(timesSleptApart);
             marriage.setGiftsGiven(giftsGiven);
             marriage.setRumorCount(rumorCount);
+            marriage.getInteractionsList().addAll(interactionList);
 
             MARRIAGE_MAP.put(player1, marriage);
             MARRIAGE_MAP.put(player2, marriage);
@@ -81,6 +90,19 @@ public class MarriageData extends SavedData {
             marriageTag.putInt("timesSleptApart", marriage.getTimesSleptApart());
             marriageTag.putInt("giftsGiven", marriage.getGiftsGiven());
             marriageTag.putInt("rumorCount", marriage.getRumorCount());
+            
+            CompoundTag marriageInteractions = new CompoundTag();
+            int i = 0;
+            for (MarriageInteraction interaction : marriage.getInteractionsList()) {
+                CompoundTag marriageInteraction = new CompoundTag();
+                marriageInteraction.putString("type", interaction.getInteractionType().getType());
+                marriageInteraction.putLong("timeOfInteraction", interaction.getTimeOfInteraction());
+                marriageInteraction.putInt("hearthsChanged", interaction.getHearthsChanged());
+
+                marriageInteractions.put("" + i, marriageInteraction);
+                i++;
+            }
+            marriageTag.put("marriageInteractions", marriageInteractions);
 
             compoundTag.put(marriage.getPlayer1().toString(), marriageTag);
         }

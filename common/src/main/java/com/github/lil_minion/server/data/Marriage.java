@@ -1,10 +1,12 @@
 package com.github.lil_minion.server.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class Marriage {
 
+    private final List<MarriageInteraction> interactionsList = new ArrayList<>();
     private final UUID player1;
     private final UUID player2;
     private final long timeOfMarriage;
@@ -16,8 +18,6 @@ public class Marriage {
     private int timesSleptApart = 0;
     private int giftsGiven = 0;
     private int rumorCount = 0;
-    //TODO private List<MarriageInteraction> interactionsList;
-
 
     public Marriage(UUID player1, UUID player2, long timeOfMarriage, int timesKissed) {
         this.player1 = player1;
@@ -31,6 +31,8 @@ public class Marriage {
         this.player2 = player2;
         this.timeOfMarriage = timeOfMarriage;
     }
+
+    public List<MarriageInteraction> getInteractionsList() {return interactionsList;}
 
     public UUID getPlayer1() {return player1;}
     public UUID getPlayer2() {return player2;}
