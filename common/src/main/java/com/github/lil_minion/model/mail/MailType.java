@@ -1,4 +1,4 @@
-package com.github.lil_minion.server.data;
+package com.github.lil_minion.model.mail;
 
 public enum MailType {
     MAIL("mail"),

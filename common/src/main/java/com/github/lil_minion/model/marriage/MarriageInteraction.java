@@ -1,4 +1,4 @@
-package com.github.lil_minion.server.data;
+package com.github.lil_minion.model.marriage;
 
 public class MarriageInteraction {
 
@@ -13,7 +13,9 @@ public class MarriageInteraction {
     }
 
     public MarriageInteractionType getInteractionType() {return interactionType;}
+
     public long getTimeOfInteraction() {return timeOfInteraction;}
+
     public int getHearthsChanged() {return hearthsChanged;}
 
 }

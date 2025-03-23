@@ -1,4 +1,4 @@
-package com.github.lil_minion.couples.fabric.items;
+package com.github.lil_minion.couples.fabric.registry;
 
 import com.github.lil_minion.Couples;
 import com.github.lil_minion.item.WeddingRingItem;
@@ -7,7 +7,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
-public class ModItemsFabric {
+public class ItemsFabric {
 
     public static final Item WEDDING_RING = register("wedding_ring",
             new WeddingRingItem(new Item.Properties()));

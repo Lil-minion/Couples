@@ -1,4 +1,4 @@
-package com.github.lil_minion.couples.fabric.items;
+package com.github.lil_minion.couples.fabric.registry;
 
 import com.github.lil_minion.Couples;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -9,14 +9,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
-public class ModCreativeTabFabric {
+public class CreativeTabFabric {
 
     public static final CreativeModeTab CREATIVE_MODE_TABS = FabricItemGroup.builder()
-            .icon(() -> new ItemStack(ModItemsFabric.WEDDING_RING))
+            .icon(() -> new ItemStack(ItemsFabric.WEDDING_RING))
             .title(Component.translatable("creative_tab.couples_tab"))
             .displayItems(
                     (parameters, output) -> {
-                        output.accept(ModItemsFabric.WEDDING_RING);
+                        output.accept(ItemsFabric.WEDDING_RING);
                     })
             .build();
 

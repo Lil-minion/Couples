@@ -1,9 +1,9 @@
 package com.github.lil_minion.couples.neoforge;
 
 import com.github.lil_minion.Couples;
-import com.github.lil_minion.couples.neoforge.items.ModCreativeTabNeoForge;
-import com.github.lil_minion.couples.neoforge.items.ModItemsNeoForge;
-import com.github.lil_minion.couples.neoforge.network.ModMessagesNeoForge;
+import com.github.lil_minion.couples.neoforge.registry.CreativeTabNeoForge;
+import com.github.lil_minion.couples.neoforge.registry.ItemsNeoForge;
+import com.github.lil_minion.couples.neoforge.network.NetworkMessagesNeoForge;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -12,9 +12,9 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 public final class CouplesNeoForge {
 
     public CouplesNeoForge(IEventBus eventBus) {
-        ModItemsNeoForge.register(eventBus);
-        ModCreativeTabNeoForge.register(eventBus);
-        eventBus.addListener(RegisterPayloadHandlersEvent.class, ModMessagesNeoForge::registerPayloadHandler);
+        ItemsNeoForge.register(eventBus);
+        CreativeTabNeoForge.register(eventBus);
+        eventBus.addListener(RegisterPayloadHandlersEvent.class, NetworkMessagesNeoForge::registerPayloadHandler);
         MethodUploaderNeoForge.toCommonCodeForServer();
     }
 

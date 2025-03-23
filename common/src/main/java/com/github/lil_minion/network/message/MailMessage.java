@@ -1,4 +1,4 @@
-package com.github.lil_minion.network;
+package com.github.lil_minion.network.message;
 
 import com.github.lil_minion.Couples;
 import net.minecraft.network.RegistryFriendlyByteBuf;

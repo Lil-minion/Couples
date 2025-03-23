@@ -1,4 +1,4 @@
-package com.github.lil_minion.couples.neoforge.items;
+package com.github.lil_minion.couples.neoforge.registry;
 
 import com.github.lil_minion.Couples;
 import com.github.lil_minion.item.WeddingRingItem;
@@ -8,7 +8,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class ModItemsNeoForge {
+public class ItemsNeoForge {
 
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(BuiltInRegistries.ITEM, Couples.MOD_ID);

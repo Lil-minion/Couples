@@ -1,6 +1,11 @@
 package com.github.lil_minion.command;
 
-import com.github.lil_minion.server.data.*;
+import com.github.lil_minion.model.mail.Mail;
+import com.github.lil_minion.model.mail.MailType;
+import com.github.lil_minion.model.marriage.MarriageInteraction;
+import com.github.lil_minion.model.marriage.MarriageInteractionType;
+import com.github.lil_minion.model.marriage.Marriage;
+import com.github.lil_minion.server.data.MarriageSavedData;
 import com.github.lil_minion.utils.InboxUtil;
 import com.github.lil_minion.utils.MarriageUtil;
 import com.mojang.brigadier.CommandDispatcher;
@@ -21,27 +26,27 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.WrittenBookContent;
 
-public class CoupleCommands {
+public class CoupleCommand {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context, Commands.CommandSelection commandSelection) {
         dispatcher.register(Commands.literal("couples")
                 .then(Commands.literal("flirt")
                         .then(Commands.argument("Player", EntityArgument.player())
-                                .executes(CoupleCommands::flirt))
+                                .executes(CoupleCommand::flirt))
 
                 ).then(Commands.literal("kiss")
                         .then(Commands.argument("Player", EntityArgument.player())
-                                .executes(CoupleCommands::kiss))
+                                .executes(CoupleCommand::kiss))
 
                 ).then(Commands.literal("mail")
-                        .executes(CoupleCommands::mail)
+                        .executes(CoupleCommand::mail)
 
                 ).then(Commands.literal("sendmail")
                         .then(Commands.argument("Player", EntityArgument.player())
-                                .executes(CoupleCommands::sendmail))
+                                .executes(CoupleCommand::sendmail))
 
                 ).then(Commands.literal("divorce")
-                        .executes(CoupleCommands::divorce))
+                        .executes(CoupleCommand::divorce))
         );
     }
 
@@ -56,7 +61,7 @@ public class CoupleCommands {
 
         // If playerSource is married.
         if (MarriageUtil.isMarried(playerSource)) {
-            Marriage marriage = MarriageData.MARRIAGE_MAP.get(playerSource.getUUID());
+            Marriage marriage = MarriageSavedData.MARRIAGE_MAP.get(playerSource.getUUID());
 
             // If playerSource is married to playerTarget.
             if (marriage.isPlayerInMarriage(playerTarget)) {

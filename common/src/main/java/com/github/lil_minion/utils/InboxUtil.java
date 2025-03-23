@@ -1,11 +1,11 @@
 package com.github.lil_minion.utils;
 
 import com.github.lil_minion.ModLoaderMethods;
-import com.github.lil_minion.network.MailMessage;
-import com.github.lil_minion.server.data.Inbox;
-import com.github.lil_minion.server.data.InboxData;
-import com.github.lil_minion.server.data.Mail;
-import com.github.lil_minion.server.data.MailType;
+import com.github.lil_minion.network.message.MailMessage;
+import com.github.lil_minion.model.mail.Inbox;
+import com.github.lil_minion.server.data.InboxSavedData;
+import com.github.lil_minion.model.mail.Mail;
+import com.github.lil_minion.model.mail.MailType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -49,10 +49,10 @@ public class InboxUtil {
 
     public static void storeMail(Mail mail) {
         Inbox inbox;
-        inbox = InboxData.PLAYER_INBOX_MAP.getOrDefault(mail.recipient(), new Inbox(mail.recipient()));
+        inbox = InboxSavedData.PLAYER_INBOX_MAP.getOrDefault(mail.recipient(), new Inbox(mail.recipient()));
         inbox.addMail(mail);
-        InboxData.PLAYER_INBOX_MAP.put(mail.recipient(), inbox);
-        InboxData.INSTANCE.setDirty();
+        InboxSavedData.PLAYER_INBOX_MAP.put(mail.recipient(), inbox);
+        InboxSavedData.INSTANCE.setDirty();
     }
 
 }

@@ -1,6 +1,6 @@
 package com.github.lil_minion.couples.fabric.event;
 
-import com.github.lil_minion.handler.PlayerEventHandler;
+import com.github.lil_minion.event.handler.PlayerEventHandler;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;

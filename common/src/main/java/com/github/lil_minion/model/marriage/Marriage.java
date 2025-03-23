@@ -1,4 +1,4 @@
-package com.github.lil_minion.server.data;
+package com.github.lil_minion.model.marriage;
 
 import net.minecraft.world.entity.player.Player;
 
@@ -53,32 +53,41 @@ public class Marriage {
     public List<MarriageInteraction> getInteractionsList() {return interactionsList;}
 
     public UUID getPlayer1() {return player1;}
+
     public UUID getPlayer2() {return player2;}
 
     public int getHearths() {return hearths;}
+
     public void setHearths(int hearths) {this.hearths = Math.min(Math.max(hearths, -100), 100);}
 
     public int getHearthsEarned() {return hearthsEarned;}
+
     public void setHearthsEarned(int hearthsEarned) {this.hearthsEarned = hearthsEarned;}
 
     public int getHeartsLost() {return heartsLost;}
+
     public void setHeartsLost(int heartsLost) {this.heartsLost = heartsLost;}
 
     public long getTimeOfMarriage() {return timeOfMarriage;}
 
     public int getTimesSleptTogether() {return timesSleptTogether;}
+
     public void setTimesSleptTogether(int timesSleptTogether) {this.timesSleptTogether = timesSleptTogether;}
 
     public int getTimesSleptApart() {return timesSleptApart;}
+
     public void setTimesSleptApart(int timesSleptApart) {this.timesSleptApart = timesSleptApart;}
 
     public int getTimesKissed() {return timesKissed;}
+
     public void setTimesKissed(int timesKissed) {this.timesKissed = timesKissed;}
 
     public int getGiftsGiven() {return giftsGiven;}
+
     public void setGiftsGiven(int giftsGiven) {this.giftsGiven = giftsGiven;}
 
     public int getRumorCount() {return rumorCount;}
+
     public void setRumorCount(int rumorCount) {this.rumorCount = rumorCount;}
 
 }

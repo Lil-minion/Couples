@@ -1,7 +1,7 @@
 package com.github.lil_minion.couples.neoforge.event;
 
 import com.github.lil_minion.Couples;
-import com.github.lil_minion.handler.PlayerEventHandler;
+import com.github.lil_minion.event.handler.PlayerEventHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;

@@ -1,14 +1,15 @@
-package com.github.lil_minion.network;
+package com.github.lil_minion.network.handler;
 
 import com.github.lil_minion.ModLoaderMethods;
-import com.github.lil_minion.server.data.Mail;
+import com.github.lil_minion.model.mail.Mail;
+import com.github.lil_minion.network.message.MailMessage;
 import com.github.lil_minion.utils.InboxUtil;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
-public class MailHandler {
+public class MailMessageHandler {
 
     public static void handle(MailMessage mailMessage, Player player) {
 

@@ -1,6 +1,9 @@
 package com.github.lil_minion.server.data;
 
 import com.github.lil_minion.Couples;
+import com.github.lil_minion.model.mail.Inbox;
+import com.github.lil_minion.model.mail.Mail;
+import com.github.lil_minion.model.mail.MailType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -12,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.List;
 
-public class InboxData extends SavedData {
+public class InboxSavedData extends SavedData {
 
     public static final Map<UUID, Inbox> PLAYER_INBOX_MAP = new HashMap<>();
 
@@ -20,16 +23,16 @@ public class InboxData extends SavedData {
 
     public static void createServerState(MinecraftServer server) {
         INSTANCE = server.overworld().getDataStorage().computeIfAbsent(
-                new Factory<>(InboxData::create, InboxData::load,
+                new Factory<>(InboxSavedData::create, InboxSavedData::load,
                         DataFixTypes.LEVEL), Couples.MOD_ID + ".inbox_data");
         INSTANCE.setDirty();
     }
 
-    public static InboxData create() {
-        return new InboxData();
+    public static InboxSavedData create() {
+        return new InboxSavedData();
     }
 
-    public static InboxData load(CompoundTag tag, HolderLookup.Provider registryLookup) {
+    public static InboxSavedData load(CompoundTag tag, HolderLookup.Provider registryLookup) {
         PLAYER_INBOX_MAP.clear();
         CompoundTag compoundTag = tag.getCompound("couples.mail_data");
 
@@ -61,7 +64,7 @@ public class InboxData extends SavedData {
             PLAYER_INBOX_MAP.put(playerUUID, inbox);
         }
 
-        return new InboxData();
+        return new InboxSavedData();
     }
 
     @Override

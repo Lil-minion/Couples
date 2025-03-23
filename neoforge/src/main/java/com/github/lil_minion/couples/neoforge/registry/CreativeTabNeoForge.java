@@ -1,4 +1,4 @@
-package com.github.lil_minion.couples.neoforge.items;
+package com.github.lil_minion.couples.neoforge.registry;
 
 import com.github.lil_minion.Couples;
 import net.minecraft.core.registries.Registries;
@@ -9,17 +9,17 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class ModCreativeTabNeoForge {
+public class CreativeTabNeoForge {
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Couples.MOD_ID);
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TRADERS_TAB = CREATIVE_MODE_TABS.register("creative_tab.couples_tab",
             () -> CreativeModeTab.builder().icon(() ->
-                            new ItemStack(ModItemsNeoForge.WEDDING_RING.get()))
+                            new ItemStack(ItemsNeoForge.WEDDING_RING.get()))
                     .title(Component.translatable("creative_tab.couples_tab")).displayItems(
                             (parameters, output) -> {
-                                output.accept(ModItemsNeoForge.WEDDING_RING.get());
+                                output.accept(ItemsNeoForge.WEDDING_RING.get());
                             })
                     .build()
     );

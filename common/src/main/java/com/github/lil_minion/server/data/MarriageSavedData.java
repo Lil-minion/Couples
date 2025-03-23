@@ -1,6 +1,9 @@
 package com.github.lil_minion.server.data;
 
 import com.github.lil_minion.Couples;
+import com.github.lil_minion.model.marriage.Marriage;
+import com.github.lil_minion.model.marriage.MarriageInteraction;
+import com.github.lil_minion.model.marriage.MarriageInteractionType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
@@ -10,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class MarriageData extends SavedData {
+public class MarriageSavedData extends SavedData {
 
     public static final Map<UUID, Marriage> MARRIAGE_MAP = new HashMap<>();
     public static final Map<UUID, UUID> MARRIAGE_PROPOSAL_MAP = new HashMap<>();
@@ -19,16 +22,16 @@ public class MarriageData extends SavedData {
 
     public static void createServerState(MinecraftServer server) {
         INSTANCE = server.overworld().getDataStorage().computeIfAbsent(
-                new Factory<>(MarriageData::create, MarriageData::load,
+                new Factory<>(MarriageSavedData::create, MarriageSavedData::load,
                         DataFixTypes.LEVEL), Couples.MOD_ID + ".marriage_data");
         INSTANCE.setDirty();
     }
 
-    public static MarriageData create() {
-        return new MarriageData();
+    public static MarriageSavedData create() {
+        return new MarriageSavedData();
     }
 
-    public static MarriageData load(CompoundTag tag, HolderLookup.Provider registryLookup) {
+    public static MarriageSavedData load(CompoundTag tag, HolderLookup.Provider registryLookup) {
         MARRIAGE_MAP.clear();
         CompoundTag compoundTag = tag.getCompound("couples.marriage_data");
 
@@ -70,7 +73,7 @@ public class MarriageData extends SavedData {
             MARRIAGE_MAP.put(player2, marriage);
         }
 
-        return new MarriageData();
+        return new MarriageSavedData();
     }
 
     @Override

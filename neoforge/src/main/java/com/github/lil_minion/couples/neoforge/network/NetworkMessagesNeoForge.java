@@ -1,12 +1,12 @@
 package com.github.lil_minion.couples.neoforge.network;
 
-import com.github.lil_minion.network.MailHandler;
-import com.github.lil_minion.network.MailMessage;
+import com.github.lil_minion.network.handler.MailMessageHandler;
+import com.github.lil_minion.network.message.MailMessage;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-public class ModMessagesNeoForge {
+public class NetworkMessagesNeoForge {
 
     public static void registerPayloadHandler(final RegisterPayloadHandlersEvent event) {
         // Sets the current network version
@@ -16,9 +16,9 @@ public class ModMessagesNeoForge {
                 MailMessage.STREAM_CODEC,
                 new DirectionalPayloadHandler<>(
                         (mailMessage, context) ->
-                                MailHandler.handle(mailMessage, context.player()),
+                                MailMessageHandler.handle(mailMessage, context.player()),
                         (mailMessage, context) ->
-                                MailHandler.handle(mailMessage, context.player())
+                                MailMessageHandler.handle(mailMessage, context.player())
                 )
         );
     }

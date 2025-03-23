@@ -1,4 +1,4 @@
-package com.github.lil_minion.server.data;
+package com.github.lil_minion.model.mail;
 
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;

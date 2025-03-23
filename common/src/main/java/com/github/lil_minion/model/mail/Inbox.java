@@ -1,4 +1,4 @@
-package com.github.lil_minion.server.data;
+package com.github.lil_minion.model.mail;
 
 import java.util.*;
 
@@ -13,6 +13,7 @@ public class Inbox {
     }
 
     public UUID getPlayerUUID() {return playerUUID;}
+
     public List<Mail> getMails() {return mails;}
 
     public void addMail(Mail mail) {
