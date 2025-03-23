@@ -20,7 +20,7 @@ public class MarriageData extends SavedData {
     public static void createServerState(MinecraftServer server) {
         INSTANCE = server.overworld().getDataStorage().computeIfAbsent(
                 new Factory<>(MarriageData::create, MarriageData::load,
-                        DataFixTypes.LEVEL), Couples.MOD_ID);
+                        DataFixTypes.LEVEL), Couples.MOD_ID + ".marriage_data");
         INSTANCE.setDirty();
     }
 
