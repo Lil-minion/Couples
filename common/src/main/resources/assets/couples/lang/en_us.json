@@ -3,5 +3,8 @@
   "creative_tab.couples_tab": "Couples",
   "messages.couples.marry_me": "wants to marry you <3",
   "messages.couples.not_married": "You are not married.",
-  "messages.couples.someone_divorced_you": "divorced you. I'm sorry."
+  "messages.couples.someone_divorced_you": "divorced you. I'm sorry.",
+  "messages.couples.you_got_mail": "You got mail, check your inbox.",
+  "messages.couples.mail_sent": "Your letter has been sent.",
+  "messages.couples.need_written_book": "You need a written book in your hand to send an email."
 }
