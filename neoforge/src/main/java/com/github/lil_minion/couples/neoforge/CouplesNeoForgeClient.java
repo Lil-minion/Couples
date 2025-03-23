@@ -10,6 +10,8 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 public class CouplesNeoForgeClient {
 
     @SubscribeEvent
-    public static void setup(FMLClientSetupEvent event) {/* Empty until needed */}
+    public static void setup(FMLClientSetupEvent event) {
+        MethodUploaderNeoForge.toCommonCodeForClient();
+    }
 
 }
