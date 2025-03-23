@@ -53,7 +53,7 @@ public class MarriageSavedData extends SavedData {
             CompoundTag marriageInteractions = marriageCompound.getCompound("marriageInteractions");
             for (String interactionId : marriageInteractions.getAllKeys()) {
                 CompoundTag interaction = marriageInteractions.getCompound(interactionId);
-                MarriageInteractionType type = MarriageInteractionType.valueOf(interaction.getString("type"));
+                MarriageInteractionType type = MarriageInteractionType.fromString(interaction.getString("type"));
                 long timeOfInteraction = interaction.getLong("timeOfInteraction");
                 int hearthsChanged = interaction.getInt("hearthsChanged");
                 interactionList.add(new MarriageInteraction(type, timeOfInteraction, hearthsChanged));

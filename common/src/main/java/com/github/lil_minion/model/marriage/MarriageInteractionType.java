@@ -14,4 +14,13 @@ public enum MarriageInteractionType {
     }
 
     public String getType() {return type;}
+
+    public static MarriageInteractionType fromString(String text) {
+        for (MarriageInteractionType interactionType : MarriageInteractionType.values()) {
+            if (interactionType.type.equalsIgnoreCase(text)) {
+                return interactionType;
+            }
+        }
+        return null;
+    }
 }
