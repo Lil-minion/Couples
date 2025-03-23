@@ -17,6 +17,8 @@ public final class CouplesFabric implements ModInitializer {
         ModCreativeTabFabric.register();
         ModMessagesFabric.registerServer();
         MethodUploaderFabric.toCommonCodeForServer();
+        PlayerEventsFabric.register();
+        ServerEventsFabric.register();
     }
 
 }
