@@ -85,7 +85,11 @@ public class CoupleCommands {
     }
 
     private static int divorce(CommandContext<CommandSourceStack> context) {
-        // Todo Implement logic
+        Player playerSource = context.getSource().getPlayer();
+        if (!MarriageUtil.divorce(playerSource)) {
+            Component message = Component.translatable("messages.couples.not_married");
+            playerSource.displayClientMessage(message, false);
+        }
         return 1;
     }
 
