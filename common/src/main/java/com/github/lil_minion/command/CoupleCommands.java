@@ -7,6 +7,7 @@ import com.github.lil_minion.server.data.MarriageInteractionType;
 import com.github.lil_minion.utils.MarriageUtil;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -19,19 +20,19 @@ public class CoupleCommands {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context, Commands.CommandSelection commandSelection) {
         dispatcher.register(Commands.literal("couples")
                 .then(Commands.literal("flirt")
-                        .then(Commands.argument("Player", EntityArgument.player()))
-                        .executes(CoupleCommands::flirt)
+                        .then(Commands.argument("Player", EntityArgument.player())
+                                .executes(CoupleCommands::flirt))
 
                 ).then(Commands.literal("kiss")
-                        .then(Commands.argument("Player", EntityArgument.player()))
-                        .executes(CoupleCommands::kiss)
+                        .then(Commands.argument("Player", EntityArgument.player())
+                                .executes(CoupleCommands::kiss))
 
                 ).then(Commands.literal("mail")
                         .executes(CoupleCommands::mail)
 
                 ).then(Commands.literal("sendmail")
-                        .then(Commands.argument("Player", EntityArgument.player()))
-                        .executes(CoupleCommands::sendmail)
+                        .then(Commands.argument("Player", EntityArgument.player())
+                                .executes(CoupleCommands::sendmail))
 
                 ).then(Commands.literal("divorce")
                         .executes(CoupleCommands::divorce))
@@ -43,9 +44,9 @@ public class CoupleCommands {
         return 1;
     }
 
-    private static int kiss(CommandContext<CommandSourceStack> context) {
+    private static int kiss(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Player playerSource = context.getSource().getPlayer();
-        Player playerTarget = context.getArgument("Player", Player.class);
+        Player playerTarget = EntityArgument.getPlayer(context, "Player");
 
         // If playerSource is married.
         if (MarriageUtil.isMarried(playerSource)) {
