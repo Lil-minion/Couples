@@ -12,6 +12,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class WeddingRingItem extends Item {
+
     public WeddingRingItem(Properties properties) {
         super(properties);
     }
@@ -21,4 +22,5 @@ public class WeddingRingItem extends Item {
     public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         return super.use(level, player, usedHand);
     }
+
 }

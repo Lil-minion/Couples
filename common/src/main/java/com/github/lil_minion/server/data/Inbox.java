@@ -18,4 +18,5 @@ public class Inbox {
     public void addMail(Mail mail) {
         mails.add(mail);
     }
+
 }

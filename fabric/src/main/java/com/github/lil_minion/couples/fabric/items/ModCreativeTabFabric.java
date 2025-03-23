@@ -11,18 +11,19 @@ import net.minecraft.world.item.ItemStack;
 
 public class ModCreativeTabFabric {
 
-        public static final CreativeModeTab CREATIVE_MODE_TABS = FabricItemGroup.builder()
-                .icon(() -> new ItemStack(ModItemsFabric.WEDDING_RING))
-                .title(Component.translatable("creative_tab.couples_tab"))
-                .displayItems(
-                        (parameters, output) -> {
-                            output.accept(ModItemsFabric.WEDDING_RING);
-                        })
-                .build();
+    public static final CreativeModeTab CREATIVE_MODE_TABS = FabricItemGroup.builder()
+            .icon(() -> new ItemStack(ModItemsFabric.WEDDING_RING))
+            .title(Component.translatable("creative_tab.couples_tab"))
+            .displayItems(
+                    (parameters, output) -> {
+                        output.accept(ModItemsFabric.WEDDING_RING);
+                    })
+            .build();
 
-        public static void register() {
-            Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
-                    new ResourceLocation(Couples.MOD_ID + ":couples_tab"), CREATIVE_MODE_TABS);
-        }
+    public static void register() {
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
+                new ResourceLocation(Couples.MOD_ID + ":couples_tab"), CREATIVE_MODE_TABS);
     }
+
+}
 

@@ -9,6 +9,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModItemsNeoForge {
+
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(BuiltInRegistries.ITEM, Couples.MOD_ID);
 
@@ -18,4 +19,5 @@ public class ModItemsNeoForge {
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }
+
 }

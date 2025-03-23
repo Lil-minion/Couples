@@ -60,4 +60,5 @@ public class MarriageUtil {
     public static boolean alreadySentProposal(Player originPlayer, Player targetPlayer) {
         return alreadySentProposal(originPlayer.getUUID(), targetPlayer.getUUID());
     }
+
 }

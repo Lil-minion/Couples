@@ -39,7 +39,7 @@ public class InboxData extends SavedData {
             UUID playerUUID = inboxTag.getUUID("player");
 
             CompoundTag mailListTag = inboxTag.getCompound("mails");
-            List<Mail> mailList= new ArrayList<>();
+            List<Mail> mailList = new ArrayList<>();
 
             Inbox inbox = new Inbox(playerUUID);
             for (String mailKey : mailListTag.getAllKeys()) {
@@ -85,7 +85,7 @@ public class InboxData extends SavedData {
                 CompoundTag pagesTag = new CompoundTag();
                 int j = 0;
                 for (Component component : mail.message()) {
-                    pagesTag.putString( "" + j, component.getString());
+                    pagesTag.putString("" + j, component.getString());
                     j++;
                 }
 

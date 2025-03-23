@@ -90,7 +90,7 @@ public class MarriageData extends SavedData {
             marriageTag.putInt("timesSleptApart", marriage.getTimesSleptApart());
             marriageTag.putInt("giftsGiven", marriage.getGiftsGiven());
             marriageTag.putInt("rumorCount", marriage.getRumorCount());
-            
+
             CompoundTag marriageInteractions = new CompoundTag();
             int i = 0;
             for (MarriageInteraction interaction : marriage.getInteractionsList()) {
@@ -106,7 +106,6 @@ public class MarriageData extends SavedData {
 
             compoundTag.put(marriage.getPlayer1().toString(), marriageTag);
         }
-
 
         tag.put("couples.marriage_data", compoundTag);
         return tag;

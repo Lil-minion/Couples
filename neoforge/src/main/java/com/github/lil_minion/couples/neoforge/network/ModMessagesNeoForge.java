@@ -16,9 +16,9 @@ public class ModMessagesNeoForge {
                 MailMessage.STREAM_CODEC,
                 new DirectionalPayloadHandler<>(
                         (mailMessage, context) ->
-                                MailHandler.handle((MailMessage) mailMessage, context.player()),
+                                MailHandler.handle(mailMessage, context.player()),
                         (mailMessage, context) ->
-                                MailHandler.handle((MailMessage) mailMessage, context.player())
+                                MailHandler.handle(mailMessage, context.player())
                 )
         );
     }

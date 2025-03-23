@@ -18,7 +18,7 @@ public class MailHandler {
             // When mail is sent to server resend back to recipient player
             ModLoaderMethods.sendMessageToClientMethod.accept(serverPlayer, mailMessage);
 
-        } else if (player instanceof LocalPlayer localPlayer){
+        } else if (player instanceof LocalPlayer localPlayer) {
             //  When mail is received by player notify player
             localPlayer.displayClientMessage(Component.translatable("messages.couples.you_got_mail"), false);
 
@@ -27,4 +27,5 @@ public class MailHandler {
             }
         }
     }
+
 }

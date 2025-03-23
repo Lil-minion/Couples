@@ -7,8 +7,6 @@ public enum MarriageInteractionType {
     GIFT("gift"),
     MAIL("mail");
 
-
-
     private final String type;
 
     MarriageInteractionType(String type) {

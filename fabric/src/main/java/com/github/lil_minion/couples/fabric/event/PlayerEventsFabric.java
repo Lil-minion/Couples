@@ -7,7 +7,6 @@ import net.minecraft.world.entity.player.Player;
 
 public class PlayerEventsFabric {
 
-
     public static void register() {
         UseEntityCallback.EVENT.register(((player, level, interactionHand, entity, entityHitResult) -> {
             if (entity instanceof Player playerTarget) {

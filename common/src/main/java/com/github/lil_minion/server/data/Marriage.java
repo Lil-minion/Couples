@@ -37,6 +37,7 @@ public class Marriage {
     public boolean isPlayerInMarriage(UUID playerUUID) {
         return player1.equals(playerUUID) || player2.equals(playerUUID);
     }
+
     public boolean isPlayerInMarriage(Player player) {
         return isPlayerInMarriage(player.getUUID());
     }
@@ -44,6 +45,7 @@ public class Marriage {
     public UUID getOtherPlayer(UUID playerUUID) {
         return playerUUID.equals(player1) ? player2 : player1;
     }
+
     public UUID getOtherPlayer(Player player) {
         return getOtherPlayer(player.getUUID());
     }

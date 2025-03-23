@@ -38,6 +38,7 @@ public record MailMessage(
             ByteBufCodecs.BOOL, MailMessage::toServer,
             MailMessage::new
     );
+
     @Override
     public @NotNull Type<? extends CustomPacketPayload> type() {
         return ID;

@@ -7,12 +7,11 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
 @EventBusSubscriber(modid = Couples.MOD_ID)
-    public class ModCommandsNeoForge {
+public class ModCommandsNeoForge {
 
-        @SubscribeEvent
-        public static void registerCommands(RegisterCommandsEvent event) {
-            CoupleCommands.register(event.getDispatcher(), event.getBuildContext(), event.getCommandSelection());
-        }
-
-
+    @SubscribeEvent
+    public static void registerCommands(RegisterCommandsEvent event) {
+        CoupleCommands.register(event.getDispatcher(), event.getBuildContext(), event.getCommandSelection());
     }
+
+}

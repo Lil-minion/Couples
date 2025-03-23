@@ -7,6 +7,7 @@ import com.github.lil_minion.utils.MarriageUtil;
 import net.minecraft.world.entity.player.Player;
 
 public class PlayerEventHandler {
+
     public static void onPlayerRightClick(Player playerOrigin, Player playerTarget) {
         if (playerOrigin.getMainHandItem().getItem() instanceof WeddingRingItem) {
 
@@ -23,10 +24,11 @@ public class PlayerEventHandler {
                     // Send chat message to the playerTarget
                     playerTarget.displayClientMessage(
                             ChatUtil.createPlayerTranslatableComponent(playerOrigin,
-                            "messages.couples.marry_me"), false
+                                    "messages.couples.marry_me"), false
                     );
                 }
             }
         }
     }
+
 }
