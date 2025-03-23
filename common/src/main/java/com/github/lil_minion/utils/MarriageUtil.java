@@ -1,0 +1,63 @@
+package com.github.lil_minion.utils;
+
+import com.github.lil_minion.server.data.Marriage;
+import com.github.lil_minion.server.data.MarriageData;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+
+import java.util.UUID;
+
+public class MarriageUtil {
+
+    public static boolean isMarried(UUID playerUUID) {
+        return MarriageData.MARRIAGE_MAP.containsKey(playerUUID);
+    }
+
+    public static boolean isMarried(Player player) {
+        return isMarried(player.getUUID());
+    }
+
+    public static boolean divorce(Player player) {
+        if (MarriageUtil.isMarried(player)) {
+            Marriage marriage = MarriageData.MARRIAGE_MAP.get(player.getUUID());
+            if (marriage != null) {
+                UUID targetUUID = marriage.getOtherPlayer(player);
+
+                // Remove data from server
+                MarriageData.MARRIAGE_MAP.remove(player.getUUID());
+                MarriageData.MARRIAGE_MAP.remove(targetUUID);
+                MarriageData.INSTANCE.setDirty();
+
+                // Send message to command issuer
+                Component message = Component.translatable("messages.couples.not_married");
+                player.displayClientMessage(message, false);
+
+                // Send message to partner
+                Player playerTarget = player.level().getPlayerByUUID(targetUUID);
+                if (playerTarget != null) {
+                    playerTarget.displayClientMessage(
+                            ChatUtil.createPlayerTranslatableComponent(player,
+                                    "messages.couples.someone_divorced_you"), false
+                    );
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Update the MARRIAGE_MAP and save the changes on it.
+    public static void updateMarriage(Marriage marriage) {
+        MarriageData.MARRIAGE_MAP.put(marriage.getPlayer1(), marriage);
+        MarriageData.MARRIAGE_MAP.put(marriage.getPlayer2(), marriage);
+        MarriageData.INSTANCE.setDirty();
+    }
+
+    public static boolean alreadySentProposal(UUID originPlayerUUID, UUID targetPlayerUUID) {
+        return MarriageData.MARRIAGE_PROPOSAL_MAP.get(targetPlayerUUID).equals(originPlayerUUID);
+    }
+
+    public static boolean alreadySentProposal(Player originPlayer, Player targetPlayer) {
+        return alreadySentProposal(originPlayer.getUUID(), targetPlayer.getUUID());
+    }
+}
