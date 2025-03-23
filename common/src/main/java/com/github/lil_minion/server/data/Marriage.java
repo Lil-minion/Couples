@@ -1,5 +1,7 @@
 package com.github.lil_minion.server.data;
 
+import net.minecraft.world.entity.player.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -32,13 +34,27 @@ public class Marriage {
         this.timeOfMarriage = timeOfMarriage;
     }
 
+    public boolean isPlayerInMarriage(UUID playerUUID) {
+        return player1.equals(playerUUID) || player2.equals(playerUUID);
+    }
+    public boolean isPlayerInMarriage(Player player) {
+        return isPlayerInMarriage(player.getUUID());
+    }
+
+    public UUID getOtherPlayer(UUID playerUUID) {
+        return playerUUID.equals(player1) ? player2 : player1;
+    }
+    public UUID getOtherPlayer(Player player) {
+        return getOtherPlayer(player.getUUID());
+    }
+
     public List<MarriageInteraction> getInteractionsList() {return interactionsList;}
 
     public UUID getPlayer1() {return player1;}
     public UUID getPlayer2() {return player2;}
 
     public int getHearths() {return hearths;}
-    public void setHearths(int hearths) {this.hearths = hearths;}
+    public void setHearths(int hearths) {this.hearths = Math.min(Math.max(hearths, -100), 100);}
 
     public int getHearthsEarned() {return hearthsEarned;}
     public void setHearthsEarned(int hearthsEarned) {this.hearthsEarned = hearthsEarned;}
