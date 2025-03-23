@@ -4,15 +4,15 @@ import com.github.lil_minion.server.data.Marriage;
 import com.github.lil_minion.server.data.MarriageData;
 import com.github.lil_minion.server.data.MarriageInteraction;
 import com.github.lil_minion.server.data.MarriageInteractionType;
+import com.github.lil_minion.utils.MarriageUtil;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
-
-import java.util.UUID;
 
 public class CoupleCommands {
 
@@ -44,18 +44,15 @@ public class CoupleCommands {
     }
 
     private static int kiss(CommandContext<CommandSourceStack> context) {
-        // Todo Implement logic
         Player playerSource = context.getSource().getPlayer();
         Player playerTarget = context.getArgument("Player", Player.class);
 
         // If playerSource is married.
-        if (MarriageData.MARRIAGE_MAP.containsKey(playerSource.getUUID())) {
+        if (MarriageUtil.isMarried(playerSource)) {
             Marriage marriage = MarriageData.MARRIAGE_MAP.get(playerSource.getUUID());
-            UUID marriedPlayer1 = marriage.getPlayer1();
-            UUID marriedPlayer2 = marriage.getPlayer2();
 
             // If playerSource is married to playerTarget.
-            if (marriedPlayer1.equals(playerTarget.getUUID()) && marriedPlayer2.equals(playerTarget.getUUID())) {
+            if (marriage.isPlayerInMarriage(playerTarget)) {
                 marriage.setHearths(marriage.getHearths() + 1);
                 marriage.setTimesKissed(marriage.getTimesKissed() + 1);
 
@@ -64,12 +61,15 @@ public class CoupleCommands {
                         playerSource.level().getGameTime(), 1);
                 marriage.getInteractionsList().add(marriageInteraction);
 
-                // Update the MARRIAGE_MAP and save the changes on it.
-                MarriageData.MARRIAGE_MAP.put(playerSource.getUUID(), marriage);
-                MarriageData.MARRIAGE_MAP.put(playerTarget.getUUID(), marriage);
-                MarriageData.INSTANCE.setDirty();
+                MarriageUtil.updateMarriage(marriage);
+            } else {
+                // Remove 15 hearths because of cheating rumors
+                marriage.setHearths(marriage.getHearths() - 15);
+                MarriageUtil.updateMarriage(marriage);
 
-            } else {/* TODO implement logic if not married to target player. -100 <3 divorcio */}
+                // Todo implement logic for sending rumor to spouse
+                // Todo implement logic for sending kiss request to target
+            }
         } else {/* TODO implement logic if player is not married */}
         return 1;
     }
