@@ -1,9 +1,7 @@
 package com.github.lil_minion.command;
 
-import com.github.lil_minion.server.data.Marriage;
-import com.github.lil_minion.server.data.MarriageData;
-import com.github.lil_minion.server.data.MarriageInteraction;
-import com.github.lil_minion.server.data.MarriageInteractionType;
+import com.github.lil_minion.server.data.*;
+import com.github.lil_minion.utils.InboxUtil;
 import com.github.lil_minion.utils.MarriageUtil;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
@@ -12,8 +10,16 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.Component;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+
+import java.util.List;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.WrittenBookContent;
 
 public class CoupleCommands {
 
@@ -80,9 +86,37 @@ public class CoupleCommands {
         return 1;
     }
 
-    private static int sendmail(CommandContext<CommandSourceStack> context) {
-        // Todo Implement logic
-        return 1;
+    private static int sendmail(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        Player player = context.getSource().getPlayer();
+        ItemStack mainHandStack = player.getMainHandItem();
+        if (mainHandStack.getItem().equals(Items.WRITTEN_BOOK)) {
+            if (player instanceof ServerPlayer serverPlayer) {
+
+                // Get content from book in hand and write the format the MailMessage class requires
+                WrittenBookContent content = mainHandStack.getComponents().get(DataComponents.WRITTEN_BOOK_CONTENT);
+                List<Component> messageOriginal = content.getPages(false);
+
+                // Create Mail
+                Player target = EntityArgument.getPlayer(context, "Player");
+                Mail mail = new Mail(
+                        serverPlayer.getUUID(),
+                        target.getUUID(),
+                        MailType.MAIL,
+                        context.getSource().getLevel().getGameTime(),
+                        messageOriginal
+                );
+
+                // Send mail, remove book, and send mail_sent message to target
+                InboxUtil.sendMail(serverPlayer, mail, false);
+                mainHandStack.setCount(0);
+                player.displayClientMessage(Component.translatable("messages.couples.mail_sent"), false);
+            }
+            return 1;
+        } else {
+            player.displayClientMessage(Component.translatable("messages.couples.need_written_book"), false);
+        }
+
+        return 0;
     }
 
     private static int divorce(CommandContext<CommandSourceStack> context) {
