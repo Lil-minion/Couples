@@ -37,7 +37,7 @@ public class RomanceUtil {
     /**
      * Updates the ROMANCE_MAP with the given romance instance and optionally marks it as dirty.
      *
-     * @param romance The romance instance to update.
+     * @param romance        The romance instance to update.
      * @param updateInstance Whether to mark the instance as dirty.
      */
     public static void updateRomance(Romance romance, boolean updateInstance) {

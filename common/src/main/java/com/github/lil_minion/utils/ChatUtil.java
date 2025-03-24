@@ -12,7 +12,7 @@ public class ChatUtil {
     /**
      * Creates a translatable chat component that starts with the player's name and a space char.
      *
-     * @param playerName The {@link Component} representing the player's name.
+     * @param playerName   The {@link Component} representing the player's name.
      * @param translatable The key for the translatable component.
      * @return A {@link Component} that combines the player's name and the translatable message.
      */
@@ -24,7 +24,7 @@ public class ChatUtil {
     /**
      * Creates a translatable chat component that starts with the player's name and a space char.
      *
-     * @param player The {@link Player} whose name will be included in the message.
+     * @param player       The {@link Player} whose name will be included in the message.
      * @param translatable The key for the translatable component.
      * @return A {@link Component} that combines the player's name and the translatable message.
      */

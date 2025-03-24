@@ -28,8 +28,8 @@ public class WeddingRingItem extends Item {
     /**
      * Called when the item is used by a player.
      *
-     * @param level The level in which the item is being used.
-     * @param player The player using the item.
+     * @param level    The level in which the item is being used.
+     * @param player   The player using the item.
      * @param usedHand The hand in which the item is being used (main or offhand).
      * @return An {@link InteractionResultHolder} containing the result of the interaction and the item stack.
      */

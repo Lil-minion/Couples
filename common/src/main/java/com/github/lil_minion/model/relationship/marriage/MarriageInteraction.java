@@ -14,9 +14,9 @@ public class MarriageInteraction {
     /**
      * Constructs a MarriageInteraction instance with the specified parameters.
      *
-     * @param type the type of interaction that occurred {@link MarriageInteractionType}
+     * @param type              the type of interaction that occurred {@link MarriageInteractionType}
      * @param timeOfInteraction the time (in ticks) when the interaction took place
-     * @param hearthsChanged the number of hearts changed as a result of the interaction
+     * @param hearthsChanged    the number of hearts changed as a result of the interaction
      */
     public MarriageInteraction(MarriageInteractionType type, long timeOfInteraction, int hearthsChanged) {
         this.interactionType = type;

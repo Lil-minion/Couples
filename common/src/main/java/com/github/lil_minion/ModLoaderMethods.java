@@ -26,7 +26,7 @@ public class ModLoaderMethods {
     /**
      * Sends a message to the specified client player with the given payload.
      *
-     * @param player The player to whom the message will be sent.
+     * @param player  The player to whom the message will be sent.
      * @param payload The payload containing the message to be sent.
      */
     public static void sendMessageToClient(ServerPlayer player, CustomPacketPayload payload) {

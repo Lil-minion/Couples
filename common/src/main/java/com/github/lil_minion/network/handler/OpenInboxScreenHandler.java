@@ -18,7 +18,7 @@ public class OpenInboxScreenHandler {
      * Handles the request to open the inbox screen for the specified player.
      *
      * @param openInboxScreenMessage the message containing the inbox data
-     * @param player the player who requested to open the inbox screen
+     * @param player                 the player who requested to open the inbox screen
      */
     public static void handle(OpenInboxScreenMessage openInboxScreenMessage, Player player) {
         Inbox inbox = InboxUtil.decodeInbox(openInboxScreenMessage, player);

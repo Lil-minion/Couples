@@ -25,7 +25,7 @@ public class InboxUtil {
     /**
      * Creates a MailMessage from a Mail object.
      *
-     * @param mail The Mail object to convert.
+     * @param mail     The Mail object to convert.
      * @param toServer Indicates if the message is to be sent to the server.
      * @return A MailMessage representing the provided Mail.
      */
@@ -64,8 +64,8 @@ public class InboxUtil {
     /**
      * Sends a mail message to the specified player and stores it in their inbox.
      *
-     * @param player The player to send the mail to.
-     * @param mail The Mail object to send.
+     * @param player   The player to send the mail to.
+     * @param mail     The Mail object to send.
      * @param toServer Indicates if the message is to be sent to the server.
      */
     public static void sendMail(ServerPlayer player, Mail mail, boolean toServer) {
@@ -114,7 +114,7 @@ public class InboxUtil {
      * Decodes an OpenInboxScreenMessage into an Inbox object.
      *
      * @param openInboxScreenMessage The OpenInboxScreenMessage to decode.
-     * @param player The player associated with the inbox.
+     * @param player                 The player associated with the inbox.
      * @return An Inbox object representing the decoded inbox.
      */
     public static Inbox decodeInbox(OpenInboxScreenMessage openInboxScreenMessage, Player player) {
