@@ -13,7 +13,6 @@ import net.minecraft.world.level.saveddata.SavedData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.List;
 
 public class InboxSavedData extends SavedData {
 

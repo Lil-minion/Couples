@@ -2,9 +2,9 @@ package com.github.lil_minion.command;
 
 import com.github.lil_minion.model.mail.Mail;
 import com.github.lil_minion.model.mail.MailType;
-import com.github.lil_minion.model.marriage.MarriageInteraction;
-import com.github.lil_minion.model.marriage.MarriageInteractionType;
-import com.github.lil_minion.model.marriage.Marriage;
+import com.github.lil_minion.model.relationship.marriage.MarriageInteraction;
+import com.github.lil_minion.model.relationship.marriage.MarriageInteractionType;
+import com.github.lil_minion.model.relationship.marriage.Marriage;
 import com.github.lil_minion.server.data.MarriageSavedData;
 import com.github.lil_minion.utils.InboxUtil;
 import com.github.lil_minion.utils.MarriageUtil;
@@ -60,7 +60,7 @@ public class CoupleCommand {
             Marriage marriage = MarriageSavedData.MARRIAGE_MAP.get(playerSource.getUUID());
 
             // If playerSource is married to playerTarget.
-            if (marriage.isPlayerInMarriage(playerTarget)) {
+            if (marriage.isPlayerInRelationship(playerTarget)) {
                 MarriageInteraction marriageInteraction = new MarriageInteraction(MarriageInteractionType.FLIRT,
                         playerSource.level().getGameTime(), 0);
                 marriage.getInteractionsList().add(marriageInteraction);
@@ -89,7 +89,7 @@ public class CoupleCommand {
             Marriage marriage = MarriageSavedData.MARRIAGE_MAP.get(playerSource.getUUID());
 
             // If playerSource is married to playerTarget.
-            if (marriage.isPlayerInMarriage(playerTarget)) {
+            if (marriage.isPlayerInRelationship(playerTarget)) {
                 marriage.setHearths(marriage.getHearths() + 1);
                 marriage.setTimesKissed(marriage.getTimesKissed() + 1);
 

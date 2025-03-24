@@ -1,7 +1,7 @@
 package com.github.lil_minion.server.data;
 
 import com.github.lil_minion.Couples;
-import com.github.lil_minion.model.romance.Romance;
+import com.github.lil_minion.model.relationship.romance.Romance;
 import com.github.lil_minion.utils.RomanceUtil;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -45,7 +45,9 @@ public class RomanceSavedData extends SavedData {
             int hearths = romanceCompound.getInt("hearths");
 
 
-            Romance romance = new Romance(player1, player2, timesKissed, timesFlirt);
+            Romance romance = new Romance(player1, player2);
+            romance.setTimesKissed(timesKissed);
+            romance.setTimesFlirted(timesFlirt);
             romance.setHearths(hearths);
 
             ROMANCE_SET.add(romance);
@@ -68,7 +70,7 @@ public class RomanceSavedData extends SavedData {
             romanceTag.putUUID("player1", romance.getPlayer1());
             romanceTag.putUUID("player2", romance.getPlayer2());
             romanceTag.putInt("timesKissed", romance.getTimesKissed());
-            romanceTag.putInt("timesFlirt", romance.getTimesFlirt());
+            romanceTag.putInt("timesFlirt", romance.getTimesFlirted());
             romanceTag.putInt("hearths", romance.getHearths());
 
             CompoundTag romanceInteractions = new CompoundTag();

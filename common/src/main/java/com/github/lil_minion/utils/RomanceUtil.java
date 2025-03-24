@@ -1,6 +1,6 @@
 package com.github.lil_minion.utils;
 
-import com.github.lil_minion.model.romance.Romance;
+import com.github.lil_minion.model.relationship.romance.Romance;
 import com.github.lil_minion.server.data.RomanceSavedData;
 import net.minecraft.world.entity.player.Player;
 

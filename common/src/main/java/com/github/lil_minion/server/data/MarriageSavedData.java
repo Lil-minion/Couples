@@ -1,9 +1,9 @@
 package com.github.lil_minion.server.data;
 
 import com.github.lil_minion.Couples;
-import com.github.lil_minion.model.marriage.Marriage;
-import com.github.lil_minion.model.marriage.MarriageInteraction;
-import com.github.lil_minion.model.marriage.MarriageInteractionType;
+import com.github.lil_minion.model.relationship.marriage.Marriage;
+import com.github.lil_minion.model.relationship.marriage.MarriageInteraction;
+import com.github.lil_minion.model.relationship.marriage.MarriageInteractionType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
@@ -44,6 +44,7 @@ public class MarriageSavedData extends SavedData {
             UUID player2 = marriageCompound.getUUID("player2");
             long timeOfMarriage = marriageCompound.getLong("timeOfMarriage");
             int timesKissed = marriageCompound.getInt("timesKissed");
+            int timesFlirted = marriageCompound.getInt("timesFlirted");
             int hearths = marriageCompound.getInt("hearths");
             int hearthsEarned = marriageCompound.getInt("hearthsEarned");
             int heartsLost = marriageCompound.getInt("heartsLost");
@@ -62,8 +63,10 @@ public class MarriageSavedData extends SavedData {
                 interactionList.add(new MarriageInteraction(type, timeOfInteraction, hearthsChanged));
             }
 
-            Marriage marriage = new Marriage(player1, player2, timeOfMarriage, timesKissed);
+            Marriage marriage = new Marriage(player1, player2, timeOfMarriage);
             marriage.setHearths(hearths);
+            marriage.setTimesKissed(timesKissed);
+            marriage.setTimesFlirted(timesFlirted);
             marriage.setHearthsEarned(hearthsEarned);
             marriage.setHeartsLost(heartsLost);
             marriage.setTimesSleptTogether(timesSleptTogether);
@@ -96,6 +99,7 @@ public class MarriageSavedData extends SavedData {
             marriageTag.putUUID("player2", marriage.getPlayer2());
             marriageTag.putLong("timeOfMarriage", marriage.getTimeOfMarriage());
             marriageTag.putInt("timesKissed", marriage.getTimesKissed());
+            marriageTag.putInt("timesFlirted", marriage.getTimesFlirted());
             marriageTag.putInt("hearths", marriage.getHearths());
             marriageTag.putInt("hearthsEarned", marriage.getHearthsEarned());
             marriageTag.putInt("heartsLost", marriage.getHeartsLost());

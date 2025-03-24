@@ -1,4 +1,4 @@
-package com.github.lil_minion.model.marriage;
+package com.github.lil_minion.model.relationship.marriage;
 
 public enum MarriageInteractionType {
     KISS("kiss"),
