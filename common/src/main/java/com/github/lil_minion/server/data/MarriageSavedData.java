@@ -18,6 +18,9 @@ public class MarriageSavedData extends SavedData {
     public static final Map<UUID, Marriage> MARRIAGE_MAP = new HashMap<>();
     public static final Map<UUID, UUID> MARRIAGE_PROPOSAL_MAP = new HashMap<>();
 
+    // Only used during I/O operations, should stay private
+    private static final Set<Marriage> MARRIAGE_SET = new HashSet<>();
+
     public static SavedData INSTANCE;
 
     public static void createServerState(MinecraftServer server) {
@@ -69,18 +72,25 @@ public class MarriageSavedData extends SavedData {
             marriage.setRumorCount(rumorCount);
             marriage.getInteractionsList().addAll(interactionList);
 
-            MARRIAGE_MAP.put(player1, marriage);
-            MARRIAGE_MAP.put(player2, marriage);
+            MARRIAGE_SET.add(marriage);
         }
+        
+        for (Marriage marriage : MARRIAGE_SET) {
+            MARRIAGE_MAP.put(marriage.getPlayer1(), marriage);
+            MARRIAGE_MAP.put(marriage.getPlayer2(), marriage);
+        }
+        MARRIAGE_SET.clear();
 
         return new MarriageSavedData();
     }
 
     @Override
     public @NotNull CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
+        MARRIAGE_SET.addAll(MARRIAGE_MAP.values());
+
         CompoundTag compoundTag = new CompoundTag();
 
-        for (Marriage marriage : MARRIAGE_MAP.values()) {
+        for (Marriage marriage : MARRIAGE_SET) {
             CompoundTag marriageTag = new CompoundTag();
             marriageTag.putUUID("player1", marriage.getPlayer1());
             marriageTag.putUUID("player2", marriage.getPlayer2());
@@ -109,7 +119,8 @@ public class MarriageSavedData extends SavedData {
 
             compoundTag.put(marriage.getPlayer1().toString(), marriageTag);
         }
-
+        
+        MARRIAGE_SET.clear();
         tag.put("couples.marriage_data", compoundTag);
         return tag;
     }

@@ -50,8 +50,33 @@ public class CoupleCommand {
         );
     }
 
-    private static int flirt(CommandContext<CommandSourceStack> context) {
-        // Todo Implement logic
+    private static int flirt(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        Player playerSource = context.getSource().getPlayer();
+        Player playerTarget = EntityArgument.getPlayer(context,"Player");
+
+        // Todo on interaction accept: romance.setHearths(romance.getHearths() + 1);
+
+        if (MarriageUtil.isMarried(playerSource)) {
+            Marriage marriage = MarriageSavedData.MARRIAGE_MAP.get(playerSource.getUUID());
+
+            // If playerSource is married to playerTarget.
+            if (marriage.isPlayerInMarriage(playerTarget)) {
+                MarriageInteraction marriageInteraction = new MarriageInteraction(MarriageInteractionType.FLIRT,
+                        playerSource.level().getGameTime(), 0);
+                marriage.getInteractionsList().add(marriageInteraction);
+                MarriageUtil.updateMarriage(marriage);
+            } else {
+                marriage.setHearths(marriage.getHearths() - 10);
+                MarriageUtil.updateMarriage(marriage);
+                // Todo implement logic for sending rumor to spouse
+                // Todo implement logic for sending flirt request to target
+
+
+            }
+        } else {
+            // Todo implement logic for sending rumor to spouse
+            // Todo implement logic for sending flirt request to target
+        }
         return 1;
     }
 
