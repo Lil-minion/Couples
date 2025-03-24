@@ -49,7 +49,7 @@ public class MarriageSavedData extends SavedData {
     /**
      * Loads marriage data from the given CompoundTag.
      *
-     * @param tag The {@link CompoundTag} containing the marriage data.
+     * @param tag            The {@link CompoundTag} containing the marriage data.
      * @param registryLookup The HolderLookup provider for registries.
      * @return A new instance of MarriageSavedData.
      */
@@ -120,13 +120,13 @@ public class MarriageSavedData extends SavedData {
 
 
     @Override
-/*
- * Saves the current state of marriage data to the given CompoundTag.
- *
- * @param tag The {@link CompoundTag} to save data into.
- * @param registries The HolderLookup provider for registries.
- * @return The updated CompoundTag containing the saved marriage data.
- */
+    /*
+     * Saves the current state of marriage data to the given CompoundTag.
+     *
+     * @param tag The {@link CompoundTag} to save data into.
+     * @param registries The HolderLookup provider for registries.
+     * @return The updated CompoundTag containing the saved marriage data.
+     */
     public @NotNull CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
         MARRIAGE_SET.addAll(MARRIAGE_MAP.values());
         CompoundTag compoundTag = new CompoundTag();

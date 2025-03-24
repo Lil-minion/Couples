@@ -97,8 +97,8 @@ public class RomanceSavedData extends SavedData {
     /**
      * Saves the current state of romance data to the given CompoundTag.
      *
-     * @param tag            The {@link CompoundTag} to save data into.
-     * @param registries     The HolderLookup provider for registries.
+     * @param tag        The {@link CompoundTag} to save data into.
+     * @param registries The HolderLookup provider for registries.
      * @return The updated CompoundTag containing the saved romance data.
      */
     @Override

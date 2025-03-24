@@ -45,7 +45,7 @@ public class InboxSavedData extends SavedData {
     /**
      * Loads the inbox data from the given CompoundTag.
      *
-     * @param tag the {@link CompoundTag} containing the inbox data
+     * @param tag            the {@link CompoundTag} containing the inbox data
      * @param registryLookup the HolderLookup provider
      * @return the loaded InboxSavedData instance
      */
@@ -117,7 +117,7 @@ public class InboxSavedData extends SavedData {
     /**
      * Saves the current state of the inbox data to a CompoundTag.
      *
-     * @param tag the {@link CompoundTag} to save data to
+     * @param tag        the {@link CompoundTag} to save data to
      * @param registries the HolderLookup provider
      * @return the updated CompoundTag
      */

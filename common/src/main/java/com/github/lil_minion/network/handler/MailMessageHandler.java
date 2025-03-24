@@ -19,7 +19,7 @@ public class MailMessageHandler {
      * Handles the received mail message for the specified player.
      *
      * @param mailMessage the mail message to be handled
-     * @param player the player who received the mail message
+     * @param player      the player who received the mail message
      */
     public static void handle(MailMessage mailMessage, Player player) {
 
