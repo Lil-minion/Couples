@@ -21,7 +21,7 @@ public record MailMessage(
         boolean toServer
 ) implements CustomPacketPayload {
 
-    public static final ResourceLocation MESSAGE_ID = new ResourceLocation(Couples.MOD_ID + ":mail");
+    public static final ResourceLocation MESSAGE_ID = new ResourceLocation(Couples.MOD_ID + ":send_mail");
     public static final CustomPacketPayload.Type<MailMessage> ID = new CustomPacketPayload.Type<>(MESSAGE_ID);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, MailMessage> STREAM_CODEC = StreamCodec.composite(

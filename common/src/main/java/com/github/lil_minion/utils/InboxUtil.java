@@ -3,11 +3,13 @@ package com.github.lil_minion.utils;
 import com.github.lil_minion.ModLoaderMethods;
 import com.github.lil_minion.network.message.MailMessage;
 import com.github.lil_minion.model.mail.Inbox;
+import com.github.lil_minion.network.message.OpenInboxScreenMessage;
 import com.github.lil_minion.server.data.InboxSavedData;
 import com.github.lil_minion.model.mail.Mail;
 import com.github.lil_minion.model.mail.MailType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +55,30 @@ public class InboxUtil {
         inbox.addMail(mail);
         InboxSavedData.PLAYER_INBOX_MAP.put(mail.recipient(), inbox);
         InboxSavedData.INSTANCE.setDirty();
+    }
+
+    public static void openInboxScreen( ServerPlayer player) {
+        Inbox inbox = InboxSavedData.PLAYER_INBOX_MAP.getOrDefault(player.getUUID(), new Inbox(player.getUUID()));
+        ModLoaderMethods.sendMessageToClient(player, InboxUtil.createOpenInboxScreenRequest(inbox));
+    }
+
+    public static OpenInboxScreenMessage createOpenInboxScreenRequest(Inbox inbox) {
+        List<MailMessage> mailMessages = new ArrayList<>();
+        List<Mail> mails = inbox.getMails();
+
+        mails.forEach(mail -> mailMessages.add(createMessage(mail, false)));
+        return new OpenInboxScreenMessage(mailMessages);
+    }
+
+    public static Inbox decodeInbox(OpenInboxScreenMessage openInboxScreenMessage, Player player) {
+        Inbox inbox = new Inbox(player.getUUID());
+
+        List<Mail> mails = new ArrayList<>();
+        List<MailMessage> mailMessages = openInboxScreenMessage.mails();
+
+        mailMessages.forEach(mailMessage -> mails.add(InboxUtil.decodeMailMessage(mailMessage)));
+        mails.forEach(inbox::addMail);
+        return inbox;
     }
 
 }

@@ -6,5 +6,6 @@
   "messages.couples.someone_divorced_you": "se ha divorciado de ti. Lo siento mucho.",
   "messages.couples.you_got_mail": "Tienes correo, comprueba tu bandeja de entrada.",
   "messages.couples.mail_sent": "Tu carta ha sido enviada.",
-  "messages.couples.need_written_book": "Necesitas un libro escrito en tu mano para enviar un correo."
+  "messages.couples.need_written_book": "Necesitas un libro escrito en tu mano para enviar un correo.",
+  "gui.screen.couples.mail_screen": "Bandeja de entrada"
 }

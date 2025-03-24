@@ -6,5 +6,6 @@
   "messages.couples.someone_divorced_you": "is van jou gescheiden. Sorry.",
   "messages.couples.you_got_mail": "Je hebt mail, check jou inbox.",
   "messages.couples.mail_sent": "Jou kaart is verstuurd.",
-  "messages.couples.need_written_book": "Je hebt een geschreven boek nodig in jou hand om en kaart te verstuuren."
+  "messages.couples.need_written_book": "Je hebt een geschreven boek nodig in jou hand om en kaart te verstuuren.",
+  "gui.screen.couples.mail_screen": "Inbox"
 }

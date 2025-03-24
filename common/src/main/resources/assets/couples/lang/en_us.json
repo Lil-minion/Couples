@@ -6,5 +6,6 @@
   "messages.couples.someone_divorced_you": "divorced you. I'm sorry.",
   "messages.couples.you_got_mail": "You got mail, check your inbox.",
   "messages.couples.mail_sent": "Your letter has been sent.",
-  "messages.couples.need_written_book": "You need a written book in your hand to send an email."
+  "messages.couples.need_written_book": "You need a written book in your hand to send an email.",
+  "gui.screen.couples.mail_screen": "Inbox"
 }

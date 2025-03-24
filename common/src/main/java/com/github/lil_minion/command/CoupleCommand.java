@@ -1,16 +1,20 @@
 package com.github.lil_minion.command;
 
+import com.github.lil_minion.client.screen.MailScreen;
+import com.github.lil_minion.model.mail.Inbox;
 import com.github.lil_minion.model.mail.Mail;
 import com.github.lil_minion.model.mail.MailType;
 import com.github.lil_minion.model.relationship.marriage.MarriageInteraction;
 import com.github.lil_minion.model.relationship.marriage.MarriageInteractionType;
 import com.github.lil_minion.model.relationship.marriage.Marriage;
+import com.github.lil_minion.server.data.InboxSavedData;
 import com.github.lil_minion.server.data.MarriageSavedData;
 import com.github.lil_minion.utils.InboxUtil;
 import com.github.lil_minion.utils.MarriageUtil;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -112,8 +116,13 @@ public class CoupleCommand {
     }
 
     private static int mail(CommandContext<CommandSourceStack> context) {
-        // Todo Implement logic
-        return 1;
+        Player player = context.getSource().getPlayer();
+        if (player instanceof ServerPlayer serverPlayer) {
+            InboxUtil.openInboxScreen(serverPlayer);
+            return 1;
+        }
+
+        return 0;
     }
 
     private static int sendmail(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
