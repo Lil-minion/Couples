@@ -35,52 +35,61 @@ public class RomanceSavedData extends SavedData {
     public static RomanceSavedData load(CompoundTag tag, HolderLookup.Provider registryLookup) {
         ROMANCE_MAP.clear();
         CompoundTag compoundTag = tag.getCompound("couples.romance_data");
+        loadRomances(compoundTag);
+        return new RomanceSavedData();
+    }
 
+    private static void loadRomances(CompoundTag compoundTag) {
         for (String key : compoundTag.getAllKeys()) {
             CompoundTag romanceCompound = compoundTag.getCompound(key);
-            UUID player1 = romanceCompound.getUUID("player1");
-            UUID player2 = romanceCompound.getUUID("player2");
-            int timesKissed = romanceCompound.getInt("timesKissed");
-            int timesFlirt = romanceCompound.getInt("timesFlirt");
-            int hearths = romanceCompound.getInt("hearths");
-
-
-            Romance romance = new Romance(player1, player2);
-            romance.setTimesKissed(timesKissed);
-            romance.setTimesFlirted(timesFlirt);
-            romance.setHearths(hearths);
-
+            Romance romance = loadRomance(romanceCompound);
             ROMANCE_SET.add(romance);
         }
 
         ROMANCE_SET.forEach(RomanceUtil::loadRomance);
         ROMANCE_SET.clear();
+    }
 
-        return new RomanceSavedData();
+    private static Romance loadRomance(CompoundTag romanceCompound) {
+        UUID player1 = romanceCompound.getUUID("player1");
+        UUID player2 = romanceCompound.getUUID("player2");
+        int timesKissed = romanceCompound.getInt("timesKissed");
+        int timesFlirt = romanceCompound.getInt("timesFlirt");
+        int hearths = romanceCompound.getInt("hearths");
+
+        Romance romance = new Romance(player1, player2);
+        romance.setTimesKissed(timesKissed);
+        romance.setTimesFlirted(timesFlirt);
+        romance.setHearths(hearths);
+        return romance;
     }
 
     @Override
     public @NotNull CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
         ROMANCE_MAP.values().forEach(ROMANCE_SET::addAll);
         CompoundTag romancesTag = new CompoundTag();
-
-        int i = 0;
-        for (Romance romance : ROMANCE_SET) {
-            CompoundTag romanceTag = new CompoundTag();
-            romanceTag.putUUID("player1", romance.getPlayer1());
-            romanceTag.putUUID("player2", romance.getPlayer2());
-            romanceTag.putInt("timesKissed", romance.getTimesKissed());
-            romanceTag.putInt("timesFlirt", romance.getTimesFlirted());
-            romanceTag.putInt("hearths", romance.getHearths());
-
-            CompoundTag romanceInteractions = new CompoundTag();
-            romancesTag.put("" + i, romanceTag);
-            i++;
-        }
-
-        ROMANCE_SET.clear();
+        saveRomances(romancesTag);
         tag.put("couples.romance_data", romancesTag);
         return tag;
     }
 
+    private void saveRomances(CompoundTag romancesTag) {
+        int i = 0;
+        for (Romance romance : ROMANCE_SET) {
+            CompoundTag romanceTag = saveRomance(romance);
+            romancesTag.put("" + i, romanceTag);
+            i++;
+        }
+        ROMANCE_SET.clear();
+    }
+
+    private CompoundTag saveRomance(Romance romance) {
+        CompoundTag romanceTag = new CompoundTag();
+        romanceTag.putUUID("player1", romance.getPlayer1());
+        romanceTag.putUUID("player2", romance.getPlayer2());
+        romanceTag.putInt("timesKissed", romance.getTimesKissed());
+        romanceTag.putInt("timesFlirt", romance.getTimesFlirted());
+        romanceTag.putInt("hearths", romance.getHearths());
+        return romanceTag;
+    }
 }
