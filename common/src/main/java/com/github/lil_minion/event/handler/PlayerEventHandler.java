@@ -6,8 +6,17 @@ import com.github.lil_minion.utils.ChatUtil;
 import com.github.lil_minion.utils.MarriageUtil;
 import net.minecraft.world.entity.player.Player;
 
+/**
+ * Handles player-related events.
+ */
 public class PlayerEventHandler {
 
+    /**
+     * Handles the event when a player right-clicks another player while holding a wedding ring.
+     *
+     * @param playerOrigin The player who initiated the right-click action.
+     * @param playerTarget The player who is being right-clicked.
+     */
     public static void onPlayerRightClick(Player playerOrigin, Player playerTarget) {
         if (playerOrigin.getMainHandItem().getItem() instanceof WeddingRingItem) {
 

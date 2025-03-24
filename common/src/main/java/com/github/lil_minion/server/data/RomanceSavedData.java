@@ -12,15 +12,22 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+/**
+ * Class that handles the saved data for romances in the game.
+ */
 public class RomanceSavedData extends SavedData {
 
     public static final Map<UUID, List<Romance>> ROMANCE_MAP = new HashMap<>();
 
-    // Only used during I/O operations, should stay private
     private static final Set<Romance> ROMANCE_SET = new HashSet<>();
 
     public static SavedData INSTANCE;
 
+    /**
+     * Creates the server state for romance data.
+     *
+     * @param server The Minecraft server instance.
+     */
     public static void createServerState(MinecraftServer server) {
         INSTANCE = server.overworld().getDataStorage().computeIfAbsent(
                 new Factory<>(RomanceSavedData::create, RomanceSavedData::load,
@@ -28,10 +35,22 @@ public class RomanceSavedData extends SavedData {
         INSTANCE.setDirty();
     }
 
+    /**
+     * Creates a new instance of RomanceSavedData.
+     *
+     * @return A new RomanceSavedData instance.
+     */
     public static RomanceSavedData create() {
         return new RomanceSavedData();
     }
 
+    /**
+     * Loads romance data from the given CompoundTag.
+     *
+     * @param tag            The {@link CompoundTag} containing the romance data.
+     * @param registryLookup The HolderLookup provider for registries.
+     * @return A new instance of RomanceSavedData.
+     */
     public static RomanceSavedData load(CompoundTag tag, HolderLookup.Provider registryLookup) {
         ROMANCE_MAP.clear();
         CompoundTag compoundTag = tag.getCompound("couples.romance_data");
@@ -39,6 +58,11 @@ public class RomanceSavedData extends SavedData {
         return new RomanceSavedData();
     }
 
+    /**
+     * Loads romances from the given CompoundTag.
+     *
+     * @param compoundTag The CompoundTag containing the romances data.
+     */
     private static void loadRomances(CompoundTag compoundTag) {
         for (String key : compoundTag.getAllKeys()) {
             CompoundTag romanceCompound = compoundTag.getCompound(key);
@@ -50,6 +74,12 @@ public class RomanceSavedData extends SavedData {
         ROMANCE_SET.clear();
     }
 
+    /**
+     * Loads a romance from the given CompoundTag.
+     *
+     * @param romanceCompound The CompoundTag containing the romance data.
+     * @return The loaded Romance object.
+     */
     private static Romance loadRomance(CompoundTag romanceCompound) {
         UUID player1 = romanceCompound.getUUID("player1");
         UUID player2 = romanceCompound.getUUID("player2");
@@ -64,6 +94,13 @@ public class RomanceSavedData extends SavedData {
         return romance;
     }
 
+    /**
+     * Saves the current state of romance data to the given CompoundTag.
+     *
+     * @param tag            The {@link CompoundTag} to save data into.
+     * @param registries     The HolderLookup provider for registries.
+     * @return The updated CompoundTag containing the saved romance data.
+     */
     @Override
     public @NotNull CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
         ROMANCE_MAP.values().forEach(ROMANCE_SET::addAll);
@@ -73,6 +110,11 @@ public class RomanceSavedData extends SavedData {
         return tag;
     }
 
+    /**
+     * Saves a collection of romances to the given CompoundTag.
+     *
+     * @param romancesTag The CompoundTag to save the romances into.
+     */
     private void saveRomances(CompoundTag romancesTag) {
         int i = 0;
         for (Romance romance : ROMANCE_SET) {
@@ -83,6 +125,12 @@ public class RomanceSavedData extends SavedData {
         ROMANCE_SET.clear();
     }
 
+    /**
+     * Saves the given Romance object to a CompoundTag.
+     *
+     * @param romance The Romance object to save.
+     * @return A CompoundTag containing the saved romance data.
+     */
     private CompoundTag saveRomance(Romance romance) {
         CompoundTag romanceTag = new CompoundTag();
         romanceTag.putUUID("player1", romance.getPlayer1());

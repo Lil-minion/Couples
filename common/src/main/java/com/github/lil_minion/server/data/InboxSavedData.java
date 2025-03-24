@@ -14,20 +14,41 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+/**
+ * Manages the saved data for player inboxes in the Minecraft server.
+ * This class handles the loading and saving of inbox data associated with players.
+ */
 public class InboxSavedData extends SavedData {
 
     public static final Map<UUID, Inbox> PLAYER_INBOX_MAP = new HashMap<>();
     public static SavedData INSTANCE;
 
+    /**
+     * Creates the server state for the inbox data.
+     *
+     * @param server the Minecraft server instance
+     */
     public static void createServerState(MinecraftServer server) {
         INSTANCE = server.overworld().getDataStorage().computeIfAbsent(new Factory<>(InboxSavedData::create, InboxSavedData::load, DataFixTypes.LEVEL), Couples.MOD_ID + ".inbox_data");
         INSTANCE.setDirty();
     }
 
+    /**
+     * Creates a new instance of InboxSavedData.
+     *
+     * @return a new InboxSavedData instance
+     */
     public static InboxSavedData create() {
         return new InboxSavedData();
     }
 
+    /**
+     * Loads the inbox data from the given CompoundTag.
+     *
+     * @param tag the {@link CompoundTag} containing the inbox data
+     * @param registryLookup the HolderLookup provider
+     * @return the loaded InboxSavedData instance
+     */
     public static InboxSavedData load(CompoundTag tag, HolderLookup.Provider registryLookup) {
         PLAYER_INBOX_MAP.clear();
         CompoundTag compoundTag = tag.getCompound("couples.mail_data");
@@ -35,6 +56,11 @@ public class InboxSavedData extends SavedData {
         return new InboxSavedData();
     }
 
+    /**
+     * Loads all inboxes from the provided CompoundTag.
+     *
+     * @param compoundTag the CompoundTag containing inbox data
+     */
     private static void loadInboxes(CompoundTag compoundTag) {
         for (String key : compoundTag.getAllKeys()) {
             CompoundTag inboxTag = compoundTag.getCompound(key);
@@ -44,6 +70,12 @@ public class InboxSavedData extends SavedData {
         }
     }
 
+    /**
+     * Loads an individual inbox from the provided CompoundTag.
+     *
+     * @param inboxTag the CompoundTag containing the inbox data
+     * @return the loaded Inbox instance
+     */
     private static Inbox loadInbox(CompoundTag inboxTag) {
         UUID playerUUID = inboxTag.getUUID("player");
         CompoundTag mailListTag = inboxTag.getCompound("mails");
@@ -58,6 +90,12 @@ public class InboxSavedData extends SavedData {
         return inbox;
     }
 
+    /**
+     * Loads a mail item from the provided CompoundTag.
+     *
+     * @param mailTag the CompoundTag containing the mail data
+     * @return the loaded Mail instance
+     */
     private static Mail loadMail(CompoundTag mailTag) {
         UUID sender = mailTag.getUUID("sender");
         UUID recipient = mailTag.getUUID("recipient");
@@ -76,6 +114,13 @@ public class InboxSavedData extends SavedData {
         return message;
     }
 
+    /**
+     * Saves the current state of the inbox data to a CompoundTag.
+     *
+     * @param tag the {@link CompoundTag} to save data to
+     * @param registries the HolderLookup provider
+     * @return the updated CompoundTag
+     */
     @Override
     public @NotNull CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
         CompoundTag compoundTag = new CompoundTag();
@@ -84,6 +129,11 @@ public class InboxSavedData extends SavedData {
         return tag;
     }
 
+    /**
+     * Saves all inboxes to the provided CompoundTag.
+     *
+     * @param compoundTag the CompoundTag to save inbox data to
+     */
     private void saveInboxes(CompoundTag compoundTag) {
         for (Inbox inbox : PLAYER_INBOX_MAP.values()) {
             CompoundTag inboxTag = saveInbox(inbox);
@@ -91,6 +141,12 @@ public class InboxSavedData extends SavedData {
         }
     }
 
+    /**
+     * Saves an individual inbox to a CompoundTag.
+     *
+     * @param inbox the Inbox instance to save
+     * @return the CompoundTag containing the saved inbox data
+     */
     private CompoundTag saveInbox(Inbox inbox) {
         CompoundTag inboxTag = new CompoundTag();
         inboxTag.putUUID("player", inbox.getPlayerUUID());
@@ -106,6 +162,12 @@ public class InboxSavedData extends SavedData {
         return inboxTag;
     }
 
+    /**
+     * Saves a mail item to a CompoundTag.
+     *
+     * @param mail the Mail instance to save
+     * @return the CompoundTag containing the saved mail data
+     */
     private CompoundTag saveMail(Mail mail) {
         CompoundTag mailTag = new CompoundTag();
         mailTag.putUUID("sender", mail.sender());
@@ -116,6 +178,12 @@ public class InboxSavedData extends SavedData {
         return mailTag;
     }
 
+    /**
+     * Saves the mail message to a CompoundTag.
+     *
+     * @param message the list of Components representing the mail message
+     * @return the CompoundTag containing the saved message pages
+     */
     private CompoundTag saveMailMessage(List<Component> message) {
         CompoundTag pagesTag = new CompoundTag();
         int j = 0;
@@ -125,5 +193,4 @@ public class InboxSavedData extends SavedData {
         }
         return pagesTag;
     }
-
 }

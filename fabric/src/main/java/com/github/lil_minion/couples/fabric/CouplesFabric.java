@@ -8,8 +8,16 @@ import com.github.lil_minion.couples.fabric.registry.ItemsFabric;
 import com.github.lil_minion.couples.fabric.network.NetworkMessagesFabric;
 import net.fabricmc.api.ModInitializer;
 
+/**
+ * The main class for the Couples mod using Fabric.
+ * This class implements the ModInitializer interface to handle mod initialization.
+ */
 public final class CouplesFabric implements ModInitializer {
 
+    /**
+     * Called when the mod is initialized.
+     * This method is responsible for running common fabric specific code.
+     */
     @Override
     public void onInitialize() {
         CommandEventsFabric.register();
@@ -20,5 +28,4 @@ public final class CouplesFabric implements ModInitializer {
         PlayerEventsFabric.register();
         ServerEventsFabric.register();
     }
-
 }

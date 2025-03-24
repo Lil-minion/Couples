@@ -9,6 +9,9 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+/**
+ * Registers creative mode tabs for the NeoForge mod.
+ */
 public class CreativeTabNeoForge {
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
@@ -24,6 +27,11 @@ public class CreativeTabNeoForge {
                     .build()
     );
 
+    /**
+     * Registers the creative mode tabs with the event bus.
+     *
+     * @param eventBus The event bus to register the tabs with.
+     */
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);
     }

@@ -6,10 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Represents a marriage relationship between two players.
+ * This class extends the Couple class and maintains various statistics
+ * related to the marriage, such as interactions, hearts earned/lost,
+ * and sleeping arrangements.
+ */
 public class Marriage extends Couple {
 
     private final List<MarriageInteraction> interactionsList = new ArrayList<>();
-
     private final long timeOfMarriage;
     private int hearthsEarned = 0;
     private int heartsLost = 0;
@@ -18,37 +23,141 @@ public class Marriage extends Couple {
     private int giftsGiven = 0;
     private int rumorCount = 0;
 
+    /**
+     * Constructs a Marriage instance with the specified players and time of marriage.
+     *
+     * @param player1        the UUID of the first player
+     * @param player2        the UUID of the second player
+     * @param timeOfMarriage the time (in ticks) when the marriage took place
+     */
     public Marriage(UUID player1, UUID player2, long timeOfMarriage) {
         super(player1, player2);
         this.timeOfMarriage = timeOfMarriage;
     }
 
-    public List<MarriageInteraction> getInteractionsList() {return interactionsList;}
+    /**
+     * Returns the list of interactions that have occurred in this marriage.
+     *
+     * @return a list of MarriageInteraction objects
+     */
+    public List<MarriageInteraction> getInteractionsList() {
+        return interactionsList;
+    }
 
-    public int getHearthsEarned() {return hearthsEarned;}
+    /**
+     * Returns the number of hearts earned in this marriage.
+     *
+     * @return the number of hearts earned
+     */
+    public int getHearthsEarned() {
+        return hearthsEarned;
+    }
 
-    public void setHearthsEarned(int hearthsEarned) {this.hearthsEarned = hearthsEarned;}
+    /**
+     * Sets the number of hearts earned in this marriage.
+     *
+     * @param hearthsEarned the number of hearts earned
+     */
+    public void setHearthsEarned(int hearthsEarned) {
+        this.hearthsEarned = hearthsEarned;
+    }
 
-    public int getHeartsLost() {return heartsLost;}
+    /**
+     * Returns the number of hearts lost in this marriage.
+     *
+     * @return the number of hearts lost
+     */
+    public int getHeartsLost() {
+        return heartsLost;
+    }
 
-    public void setHeartsLost(int heartsLost) {this.heartsLost = heartsLost;}
+    /**
+     * Sets the number of hearts lost in this marriage.
+     *
+     * @param heartsLost the number of hearts lost
+     */
+    public void setHeartsLost(int heartsLost) {
+        this.heartsLost = heartsLost;
+    }
 
-    public long getTimeOfMarriage() {return timeOfMarriage;}
+    /**
+     * Returns the time of marriage.
+     *
+     * @return the time of marriage in ticks
+     */
+    public long getTimeOfMarriage() {
+        return timeOfMarriage;
+    }
 
-    public int getTimesSleptTogether() {return timesSleptTogether;}
+    /**
+     * Returns the number of times the couple has slept together.
+     *
+     * @return the number of times slept together
+     */
+    public int getTimesSleptTogether() {
+        return timesSleptTogether;
+    }
 
-    public void setTimesSleptTogether(int timesSleptTogether) {this.timesSleptTogether = timesSleptTogether;}
+    /**
+     * Sets the number of times the couple has slept together.
+     *
+     * @param timesSleptTogether the number of times slept together
+     */
+    public void setTimesSleptTogether(int timesSleptTogether) {
+        this.timesSleptTogether = timesSleptTogether;
+    }
 
-    public int getTimesSleptApart() {return timesSleptApart;}
+    /**
+     * Returns the number of times the couple has slept apart.
+     *
+     * @return the number of times slept apart
+     */
+    public int getTimesSleptApart() {
+        return timesSleptApart;
+    }
 
-    public void setTimesSleptApart(int timesSleptApart) {this.timesSleptApart = timesSleptApart;}
+    /**
+     * Sets the number of times the couple has slept apart.
+     *
+     * @param timesSleptApart the number of times slept apart
+     */
+    public void setTimesSleptApart(int timesSleptApart) {
+        this.timesSleptApart = timesSleptApart;
+    }
 
-    public int getGiftsGiven() {return giftsGiven;}
+    /**
+     * Returns the number of gifts given in this marriage.
+     *
+     * @return the number of gifts given
+     */
+    public int getGiftsGiven() {
+        return giftsGiven;
+    }
 
-    public void setGiftsGiven(int giftsGiven) {this.giftsGiven = giftsGiven;}
+    /**
+     * Sets the number of gifts given in this marriage.
+     *
+     * @param giftsGiven the number of gifts given
+     */
+    public void setGiftsGiven(int giftsGiven) {
+        this.giftsGiven = giftsGiven;
+    }
 
-    public int getRumorCount() {return rumorCount;}
+    /**
+     * Returns the number of rumors associated with this marriage.
+     *
+     * @return the number of rumors
+     */
+    public int getRumorCount() {
+        return rumorCount;
+    }
 
-    public void setRumorCount(int rumorCount) {this.rumorCount = rumorCount;}
-
+    /**
+     * Sets the number of rumors associated with this marriage.
+     *
+     * @param rumorCount the number of rumors
+     */
+    public void setRumorCount(int rumorCount) {
+        this.rumorCount = rumorCount;
+    }
 }

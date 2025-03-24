@@ -8,9 +8,18 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
+/**
+ * Main class for the Couples NeoForge mod.
+ * This class initializes the mod and registers items, creative tabs, and network messages.
+ */
 @Mod(Couples.MOD_ID)
 public final class CouplesNeoForge {
 
+    /**
+     * Constructs the CouplesNeoForge mod and registers necessary components.
+     *
+     * @param eventBus The event bus used for registering items and event listeners.
+     */
     public CouplesNeoForge(IEventBus eventBus) {
         ItemsNeoForge.register(eventBus);
         CreativeTabNeoForge.register(eventBus);

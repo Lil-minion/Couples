@@ -1,20 +1,16 @@
 package com.github.lil_minion.command;
 
-import com.github.lil_minion.client.screen.MailScreen;
-import com.github.lil_minion.model.mail.Inbox;
 import com.github.lil_minion.model.mail.Mail;
 import com.github.lil_minion.model.mail.MailType;
 import com.github.lil_minion.model.relationship.marriage.MarriageInteraction;
 import com.github.lil_minion.model.relationship.marriage.MarriageInteractionType;
 import com.github.lil_minion.model.relationship.marriage.Marriage;
-import com.github.lil_minion.server.data.InboxSavedData;
 import com.github.lil_minion.server.data.MarriageSavedData;
 import com.github.lil_minion.utils.InboxUtil;
 import com.github.lil_minion.utils.MarriageUtil;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -30,8 +26,23 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.WrittenBookContent;
 
+
+/**
+ * Handles commands related to couple interactions, such as flirting, kissing, sending mail, and divorcing.
+ * <p>
+ * This class provides methods to register commands and execute actions that involve player interactions
+ * in the context of relationships, including managing marriage proposals and mail.
+ * </p>
+ */
 public class CoupleCommand {
 
+    /**
+     * Registers the couple command and subcommands with the given command dispatcher.
+     *
+     * @param dispatcher       The command dispatcher to register the commands with.
+     * @param context          The command build context.
+     * @param commandSelection The command selection type.
+     */
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context, Commands.CommandSelection commandSelection) {
         dispatcher.register(Commands.literal("couples")
                 .then(Commands.literal("flirt")
@@ -54,9 +65,20 @@ public class CoupleCommand {
         );
     }
 
+    /**
+     * Executes the flirt command, allowing a player to flirt with another player.
+     *
+     * @param context The command context containing the source and arguments.
+     * @return An integer indicating the result of the command execution:
+     * <ul>
+     * <li>1 if the command was successful.</li>
+     * <li>0 if the command was not successful.</li>
+     * </ul>
+     * @throws CommandSyntaxException If there is an issue with the command syntax.
+     */
     private static int flirt(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Player playerSource = context.getSource().getPlayer();
-        Player playerTarget = EntityArgument.getPlayer(context,"Player");
+        Player playerTarget = EntityArgument.getPlayer(context, "Player");
 
         // Todo on interaction accept: romance.setHearths(romance.getHearths() + 1);
 
@@ -75,7 +97,6 @@ public class CoupleCommand {
                 // Todo implement logic for sending rumor to spouse
                 // Todo implement logic for sending flirt request to target
 
-
             }
         } else {
             // Todo implement logic for sending rumor to spouse
@@ -84,6 +105,17 @@ public class CoupleCommand {
         return 1;
     }
 
+    /**
+     * Executes the kiss command, allowing a player to kiss another player.
+     *
+     * @param context The command context containing the source and arguments.
+     * @return An integer indicating the result of the command execution:
+     * <ul>
+     * <li>1 if the command was successful.</li>
+     * <li>0 if the command was not successful.</li>
+     * </ul>
+     * @throws CommandSyntaxException If there is an issue with the command syntax.
+     */
     private static int kiss(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Player playerSource = context.getSource().getPlayer();
         Player playerTarget = EntityArgument.getPlayer(context, "Player");
@@ -115,6 +147,16 @@ public class CoupleCommand {
         return 1;
     }
 
+    /**
+     * Executes the mail command, allowing players to access their mail.
+     *
+     * @param context The command context containing the source and arguments.
+     * @return An integer indicating the result of the command execution:
+     * <ul>
+     * <li>1 if the command was successful.</li>
+     * <li>0 if the command was not successful.</li>
+     * </ul>
+     */
     private static int mail(CommandContext<CommandSourceStack> context) {
         Player player = context.getSource().getPlayer();
         if (player instanceof ServerPlayer serverPlayer) {
@@ -125,6 +167,17 @@ public class CoupleCommand {
         return 0;
     }
 
+    /**
+     * Executes the sendmail command, allowing a player to send a mail to another player.
+     *
+     * @param context The command context containing the source and arguments.
+     * @return An integer indicating the result of the command execution:
+     * <ul>
+     * <li>1 if the command was successful.</li>
+     * <li>0 if the command was not successful.</li>
+     * </ul>
+     * @throws CommandSyntaxException If there is an issue with the command syntax.
+     */
     private static int sendmail(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Player player = context.getSource().getPlayer();
         ItemStack mainHandStack = player.getMainHandItem();
@@ -158,6 +211,16 @@ public class CoupleCommand {
         return 0;
     }
 
+    /**
+     * Executes the divorce command, allowing a player to divorce their spouse.
+     *
+     * @param context The command context containing the source and arguments.
+     * @return An integer indicating the result of the command execution:
+     * <ul>
+     * <li>1 if the command was successful.</li>
+     * <li>0 if the command was not successful.</li>
+     * </ul>
+     */
     private static int divorce(CommandContext<CommandSourceStack> context) {
         Player playerSource = context.getSource().getPlayer();
         if (!MarriageUtil.divorce(playerSource)) {

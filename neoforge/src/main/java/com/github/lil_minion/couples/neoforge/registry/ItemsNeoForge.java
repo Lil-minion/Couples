@@ -8,6 +8,9 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+/**
+ * Registers items for the NeoForge mod.
+ */
 public class ItemsNeoForge {
 
     public static final DeferredRegister<Item> ITEMS =
@@ -16,6 +19,11 @@ public class ItemsNeoForge {
     public static final DeferredHolder<Item, Item> WEDDING_RING = ITEMS.register("wedding_ring",
             () -> new WeddingRingItem(new Item.Properties()));
 
+    /**
+     * Registers the items with the event bus.
+     *
+     * @param eventBus The event bus to register the items with.
+     */
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

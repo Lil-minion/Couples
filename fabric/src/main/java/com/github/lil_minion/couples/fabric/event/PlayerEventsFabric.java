@@ -5,8 +5,14 @@ import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 
+/**
+ * This class is responsible for registering player-related event callback
+ */
 public class PlayerEventsFabric {
 
+    /**
+     * Registers the player event callbacks.
+     */
     public static void register() {
         UseEntityCallback.EVENT.register(((player, level, interactionHand, entity, entityHitResult) -> {
             if (entity instanceof Player playerTarget) {

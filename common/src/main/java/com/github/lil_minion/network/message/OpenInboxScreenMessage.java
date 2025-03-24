@@ -11,6 +11,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a message to open the inbox screen for a player.
+ * This record encapsulates a list of mail messages that will be displayed
+ * in the inbox (until local mail storage is properly implemented).
+ */
 public record OpenInboxScreenMessage(List<MailMessage> mails) implements CustomPacketPayload {
 
     public static final ResourceLocation MESSAGE_ID = new ResourceLocation(Couples.MOD_ID + ":open_inbox_screen");
@@ -25,9 +30,13 @@ public record OpenInboxScreenMessage(List<MailMessage> mails) implements CustomP
             OpenInboxScreenMessage::new
     );
 
+    /**
+     * Returns the type of this custom packet payload.
+     *
+     * @return the type of the custom packet payload
+     */
     @Override
     public @NotNull Type<? extends CustomPacketPayload> type() {
         return ID;
     }
-
 }

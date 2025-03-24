@@ -16,8 +16,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Utility class for managing mail operations, including creating, sending,
+ * and decoding mail messages, as well as managing the inbox.
+ */
 public class InboxUtil {
 
+    /**
+     * Creates a MailMessage from a Mail object.
+     *
+     * @param mail The Mail object to convert.
+     * @param toServer Indicates if the message is to be sent to the server.
+     * @return A MailMessage representing the provided Mail.
+     */
     public static MailMessage createMessage(Mail mail, boolean toServer) {
         List<String> message = new ArrayList<>();
         mail.message().forEach(component -> message.add(component.getString()));
@@ -31,6 +42,12 @@ public class InboxUtil {
         );
     }
 
+    /**
+     * Decodes a MailMessage into a Mail object.
+     *
+     * @param mailMessage The MailMessage to decode.
+     * @return A Mail object representing the decoded message.
+     */
     public static Mail decodeMailMessage(MailMessage mailMessage) {
         UUID senderUUID = UUID.fromString(mailMessage.sender().orElse(null));
         UUID recipientUUID = UUID.fromString(mailMessage.recipient());
@@ -44,11 +61,23 @@ public class InboxUtil {
         return new Mail(senderUUID, recipientUUID, type, mailMessage.timestamp(), messageList);
     }
 
+    /**
+     * Sends a mail message to the specified player and stores it in their inbox.
+     *
+     * @param player The player to send the mail to.
+     * @param mail The Mail object to send.
+     * @param toServer Indicates if the message is to be sent to the server.
+     */
     public static void sendMail(ServerPlayer player, Mail mail, boolean toServer) {
         ModLoaderMethods.sendMessageToClient(player, InboxUtil.createMessage(mail, toServer));
         storeMail(mail);
     }
 
+    /**
+     * Stores the given mail in the recipient's inbox.
+     *
+     * @param mail The Mail object to store.
+     */
     public static void storeMail(Mail mail) {
         Inbox inbox;
         inbox = InboxSavedData.PLAYER_INBOX_MAP.getOrDefault(mail.recipient(), new Inbox(mail.recipient()));
@@ -57,11 +86,22 @@ public class InboxUtil {
         InboxSavedData.INSTANCE.setDirty();
     }
 
-    public static void openInboxScreen( ServerPlayer player) {
+    /**
+     * Opens the inbox screen for the specified player.
+     *
+     * @param player The player whose inbox screen is to be opened.
+     */
+    public static void openInboxScreen(ServerPlayer player) {
         Inbox inbox = InboxSavedData.PLAYER_INBOX_MAP.getOrDefault(player.getUUID(), new Inbox(player.getUUID()));
         ModLoaderMethods.sendMessageToClient(player, InboxUtil.createOpenInboxScreenRequest(inbox));
     }
 
+    /**
+     * Creates a request to open the MailScreen with the specified {@link Inbox}.
+     *
+     * @param inbox The Inbox object to create the request for.
+     * @return An OpenInboxScreenMessage containing the mail messages.
+     */
     public static OpenInboxScreenMessage createOpenInboxScreenRequest(Inbox inbox) {
         List<MailMessage> mailMessages = new ArrayList<>();
         List<Mail> mails = inbox.getMails();
@@ -70,6 +110,13 @@ public class InboxUtil {
         return new OpenInboxScreenMessage(mailMessages);
     }
 
+    /**
+     * Decodes an OpenInboxScreenMessage into an Inbox object.
+     *
+     * @param openInboxScreenMessage The OpenInboxScreenMessage to decode.
+     * @param player The player associated with the inbox.
+     * @return An Inbox object representing the decoded inbox.
+     */
     public static Inbox decodeInbox(OpenInboxScreenMessage openInboxScreenMessage, Player player) {
         Inbox inbox = new Inbox(player.getUUID());
 

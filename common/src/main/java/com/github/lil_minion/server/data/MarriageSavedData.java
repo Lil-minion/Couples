@@ -13,16 +13,23 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+/**
+ * Class that handles the saved data for marriages in the game.
+ */
 public class MarriageSavedData extends SavedData {
 
     public static final Map<UUID, Marriage> MARRIAGE_MAP = new HashMap<>();
     public static final Map<UUID, UUID> MARRIAGE_PROPOSAL_MAP = new HashMap<>();
 
-    // Only used during I/O operations, should stay private
     private static final Set<Marriage> MARRIAGE_SET = new HashSet<>();
 
     public static SavedData INSTANCE;
 
+    /**
+     * Creates the server state for marriage data.
+     *
+     * @param server The Minecraft server instance.
+     */
     public static void createServerState(MinecraftServer server) {
         INSTANCE = server.overworld().getDataStorage().computeIfAbsent(
                 new Factory<>(MarriageSavedData::create, MarriageSavedData::load,
@@ -30,10 +37,22 @@ public class MarriageSavedData extends SavedData {
         INSTANCE.setDirty();
     }
 
+    /**
+     * Creates a new instance of MarriageSavedData.
+     *
+     * @return A new MarriageSavedData instance.
+     */
     public static MarriageSavedData create() {
         return new MarriageSavedData();
     }
 
+    /**
+     * Loads marriage data from the given CompoundTag.
+     *
+     * @param tag The {@link CompoundTag} containing the marriage data.
+     * @param registryLookup The HolderLookup provider for registries.
+     * @return A new instance of MarriageSavedData.
+     */
     public static MarriageSavedData load(CompoundTag tag, HolderLookup.Provider registryLookup) {
         MARRIAGE_MAP.clear();
         CompoundTag compoundTag = tag.getCompound("couples.marriage_data");
@@ -53,6 +72,12 @@ public class MarriageSavedData extends SavedData {
         return new MarriageSavedData();
     }
 
+    /**
+     * Loads a marriage from the given CompoundTag.
+     *
+     * @param marriageCompound The CompoundTag containing the marriage data.
+     * @return The loaded Marriage object.
+     */
     private static Marriage loadMarriage(CompoundTag marriageCompound) {
         UUID player1 = marriageCompound.getUUID("player1");
         UUID player2 = marriageCompound.getUUID("player2");
@@ -75,6 +100,12 @@ public class MarriageSavedData extends SavedData {
         return marriage;
     }
 
+    /**
+     * Loads interactions from the given CompoundTag.
+     *
+     * @param marriageInteractions The CompoundTag containing the interactions data.
+     * @return A list of MarriageInteraction objects.
+     */
     private static List<MarriageInteraction> loadInteractions(CompoundTag marriageInteractions) {
         List<MarriageInteraction> interactionList = new ArrayList<>();
         for (String interactionId : marriageInteractions.getAllKeys()) {
@@ -87,7 +118,15 @@ public class MarriageSavedData extends SavedData {
         return interactionList;
     }
 
+
     @Override
+/*
+ * Saves the current state of marriage data to the given CompoundTag.
+ *
+ * @param tag The {@link CompoundTag} to save data into.
+ * @param registries The HolderLookup provider for registries.
+ * @return The updated CompoundTag containing the saved marriage data.
+ */
     public @NotNull CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
         MARRIAGE_SET.addAll(MARRIAGE_MAP.values());
         CompoundTag compoundTag = new CompoundTag();
@@ -102,6 +141,12 @@ public class MarriageSavedData extends SavedData {
         return tag;
     }
 
+    /**
+     * Saves the given Marriage object to a CompoundTag.
+     *
+     * @param marriage The Marriage object to save.
+     * @return A CompoundTag containing the saved marriage data.
+     */
     private CompoundTag saveMarriage(Marriage marriage) {
         CompoundTag marriageTag = new CompoundTag();
         marriageTag.putUUID("player1", marriage.getPlayer1());
@@ -122,6 +167,12 @@ public class MarriageSavedData extends SavedData {
         return marriageTag;
     }
 
+    /**
+     * Saves a list of MarriageInteraction objects to a CompoundTag.
+     *
+     * @param interactions The list of MarriageInteraction objects to save.
+     * @return A {@link CompoundTag} containing the saved interaction's data.
+     */
     private CompoundTag saveInteractions(List<MarriageInteraction> interactions) {
         CompoundTag marriageInteractions = new CompoundTag();
         int i = 0;

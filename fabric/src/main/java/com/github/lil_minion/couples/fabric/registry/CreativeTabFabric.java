@@ -9,6 +9,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
+/**
+ * Handles the creation and registration of creative mode tabs for the mod.
+ * This class is responsible for defining the items that appear in the
+ * creative inventory under the mod's tab.
+ */
 public class CreativeTabFabric {
 
     public static final CreativeModeTab CREATIVE_MODE_TABS = FabricItemGroup.builder()
@@ -20,10 +25,14 @@ public class CreativeTabFabric {
                     })
             .build();
 
+    /**
+     * Registers the creative mode tab with the game's registry.
+     * This method is called to ensure the tab is available in the
+     * creative inventory.
+     */
     public static void register() {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
                 new ResourceLocation(Couples.MOD_ID + ":couples_tab"), CREATIVE_MODE_TABS);
     }
 
 }
-

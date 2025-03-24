@@ -7,16 +7,39 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
 
+/**
+ * Utility class for managing marriage relationships between players.
+ * This class provides methods to check marriage status, divorce players,
+ * and manage marriage proposals.
+ */
 public class MarriageUtil {
 
+    /**
+     * Checks if a player with the given {@link UUID} is married.
+     *
+     * @param playerUUID The {@link UUID} of the player to check.
+     * @return True if the player is married, false otherwise.
+     */
     public static boolean isMarried(UUID playerUUID) {
         return MarriageSavedData.MARRIAGE_MAP.containsKey(playerUUID);
     }
 
+    /**
+     * Checks if the specified player is married.
+     *
+     * @param player The {@link Player} to check.
+     * @return True if the player is married, false otherwise.
+     */
     public static boolean isMarried(Player player) {
         return isMarried(player.getUUID());
     }
 
+    /**
+     * Divorces the specified player if they are married.
+     *
+     * @param player The {@link Player} to divorce.
+     * @return True if the divorce was successful, false otherwise.
+     */
     public static boolean divorce(Player player) {
         if (MarriageUtil.isMarried(player)) {
             Marriage marriage = MarriageSavedData.MARRIAGE_MAP.get(player.getUUID());
@@ -46,17 +69,35 @@ public class MarriageUtil {
         return false;
     }
 
-    // Update the MARRIAGE_MAP and save the changes on it.
+    /**
+     * Updates the MARRIAGE_MAP with the given {@link Marriage} instance.
+     *
+     * @param marriage The marriage instance to update.
+     */
     public static void updateMarriage(Marriage marriage) {
         MarriageSavedData.MARRIAGE_MAP.put(marriage.getPlayer1(), marriage);
         MarriageSavedData.MARRIAGE_MAP.put(marriage.getPlayer2(), marriage);
         MarriageSavedData.INSTANCE.setDirty();
     }
 
+    /**
+     * Checks if a marriage proposal has already been sent from the origin player to the target player.
+     *
+     * @param originPlayerUUID The {@link UUID} of the player who sent the proposal.
+     * @param targetPlayerUUID The {@link UUID} of the player who received the proposal.
+     * @return True if a proposal has already been sent, false otherwise.
+     */
     public static boolean alreadySentProposal(UUID originPlayerUUID, UUID targetPlayerUUID) {
         return MarriageSavedData.MARRIAGE_PROPOSAL_MAP.get(targetPlayerUUID).equals(originPlayerUUID);
     }
 
+    /**
+     * Checks if a marriage proposal has already been sent from the origin player to the target player.
+     *
+     * @param originPlayer The {@link Player} who sent the proposal.
+     * @param targetPlayer The {@link Player} who received the proposal.
+     * @return True if a proposal has already been sent, false otherwise.
+     */
     public static boolean alreadySentProposal(Player originPlayer, Player targetPlayer) {
         return alreadySentProposal(originPlayer.getUUID(), targetPlayer.getUUID());
     }

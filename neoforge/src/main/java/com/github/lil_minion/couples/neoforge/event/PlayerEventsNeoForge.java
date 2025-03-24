@@ -8,9 +8,18 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
+/**
+ * This class handles player events for the Couples mod using NeoForge.
+ */
 @EventBusSubscriber(modid = Couples.MOD_ID)
 public class PlayerEventsNeoForge {
 
+    /**
+     * Called when a player right-clicks on another entity.
+     * If the target entity is a player, it invokes the appropriate handler method.
+     *
+     * @param event The event containing information about the player interaction.
+     */
     @SubscribeEvent
     private static void onPlayerRightClick(PlayerInteractEvent.EntityInteract event) {
         Entity entityTarget = event.getTarget();
@@ -20,5 +29,4 @@ public class PlayerEventsNeoForge {
             PlayerEventHandler.onPlayerRightClick(playerOrigin, playerTarget);
         }
     }
-
 }
