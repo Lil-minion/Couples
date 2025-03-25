@@ -2,11 +2,14 @@ package com.github.lil_minion.command;
 
 import com.github.lil_minion.model.mail.Mail;
 import com.github.lil_minion.model.mail.MailType;
+import com.github.lil_minion.model.relationship.interaction.InteractionRequestType;
 import com.github.lil_minion.model.relationship.marriage.MarriageInteraction;
 import com.github.lil_minion.model.relationship.marriage.MarriageInteractionType;
 import com.github.lil_minion.model.relationship.marriage.Marriage;
 import com.github.lil_minion.server.data.MarriageSavedData;
+import com.github.lil_minion.utils.ChatUtil;
 import com.github.lil_minion.utils.InboxUtil;
+import com.github.lil_minion.utils.InteractionUtil;
 import com.github.lil_minion.utils.MarriageUtil;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
@@ -15,6 +18,7 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.MessageArgument;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -47,11 +51,16 @@ public class CoupleCommand {
         dispatcher.register(Commands.literal("couples")
                 .then(Commands.literal("flirt")
                         .then(Commands.argument("Player", EntityArgument.player())
-                                .executes(CoupleCommand::flirt))
+                                .then(Commands.argument("Message", MessageArgument.message())
+                                        .executes(CoupleCommand::flirt)))
 
                 ).then(Commands.literal("kiss")
                         .then(Commands.argument("Player", EntityArgument.player())
-                                .executes(CoupleCommand::kiss))
+                                .executes(commandContext ->
+                                        CoupleCommand.kiss(commandContext, true))
+                                .then(Commands.argument("Message", MessageArgument.message())
+                                        .executes(commandContext ->
+                                                CoupleCommand.kiss(commandContext, false))))
 
                 ).then(Commands.literal("mail")
                         .executes(CoupleCommand::mail)
@@ -64,6 +73,8 @@ public class CoupleCommand {
                         .executes(CoupleCommand::divorce))
         );
     }
+
+    // Todo handle when commands run in the console
 
     /**
      * Executes the flirt command, allowing a player to flirt with another player.
@@ -79,9 +90,11 @@ public class CoupleCommand {
     private static int flirt(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Player playerSource = context.getSource().getPlayer();
         Player playerTarget = EntityArgument.getPlayer(context, "Player");
+        Component message = ChatUtil.createPlayerMessageComponent(playerSource, MessageArgument.getMessage(context, "Message"), ": ");
 
-        // Todo on interaction accept: romance.setHearths(romance.getHearths() + 1);
+        boolean sendMessage = false;
 
+        assert playerSource != null;
         if (MarriageUtil.isMarried(playerSource)) {
             Marriage marriage = MarriageSavedData.MARRIAGE_MAP.get(playerSource.getUUID());
 
@@ -91,17 +104,30 @@ public class CoupleCommand {
                         playerSource.level().getGameTime(), 0);
                 marriage.getInteractionsList().add(marriageInteraction);
                 MarriageUtil.updateMarriage(marriage);
+
+                playerTarget.displayClientMessage(
+                        ChatUtil.createPlayerMessageComponent(playerSource, message, ": "), false
+                );
+
             } else {
                 marriage.setHearths(marriage.getHearths() - 10);
                 MarriageUtil.updateMarriage(marriage);
                 // Todo implement logic for sending rumor to spouse
-                // Todo implement logic for sending flirt request to target
 
+                sendMessage = true;
             }
         } else {
-            // Todo implement logic for sending rumor to spouse
-            // Todo implement logic for sending flirt request to target
+            sendMessage = true;
         }
+
+
+        if (sendMessage) {
+            if (playerTarget instanceof ServerPlayer serverPlayerTarget) {
+                InteractionUtil.interact(playerSource, serverPlayerTarget, message, InteractionRequestType.FLIRT_REQUEST);
+            }
+        }
+
+
         return 1;
     }
 
@@ -116,9 +142,20 @@ public class CoupleCommand {
      * </ul>
      * @throws CommandSyntaxException If there is an issue with the command syntax.
      */
-    private static int kiss(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+    private static int kiss(CommandContext<CommandSourceStack> context, boolean useDefault) throws CommandSyntaxException {
         Player playerSource = context.getSource().getPlayer();
         Player playerTarget = EntityArgument.getPlayer(context, "Player");
+
+        // Try to assign message or use default
+        Component message;
+        if (useDefault){
+            message = ChatUtil.createPlayerMessageComponent(playerSource, Component.translatable("messages.couples.kiss_me"), " ");
+        } else{
+            message = ChatUtil.createPlayerMessageComponent(playerSource, MessageArgument.getMessage(context, "Message"), ": ");
+        }
+
+
+        boolean sendMessage = false;
 
         // If playerSource is married.
         if (MarriageUtil.isMarried(playerSource)) {
@@ -141,9 +178,19 @@ public class CoupleCommand {
                 MarriageUtil.updateMarriage(marriage);
 
                 // Todo implement logic for sending rumor to spouse
-                // Todo implement logic for sending kiss request to target
+
+                sendMessage = true;
             }
-        } else {/* TODO implement logic if player is not married */}
+        } else {
+            sendMessage = true;
+        }
+
+        if (sendMessage) {
+            if (playerTarget instanceof ServerPlayer serverPlayerTarget) {
+                InteractionUtil.interact(playerSource, serverPlayerTarget, message, InteractionRequestType.KISS_REQUEST);
+            }
+        }
+
         return 1;
     }
 

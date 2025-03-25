@@ -1,7 +1,9 @@
 package com.github.lil_minion.couples.neoforge.network;
 
+import com.github.lil_minion.network.handler.InteractionRequestHandler;
 import com.github.lil_minion.network.handler.MailMessageHandler;
 import com.github.lil_minion.network.handler.OpenInboxScreenHandler;
+import com.github.lil_minion.network.message.InteractionRequestMessage;
 import com.github.lil_minion.network.message.MailMessage;
 import com.github.lil_minion.network.message.OpenInboxScreenMessage;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -9,7 +11,9 @@ import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 /**
- * Registers network message handlers for the NeoForge network.
+ * Handles the registration of network messages for the mod.
+ * This class is responsible for setting up networking, including
+ * message handling and payload registration.
  */
 public class NetworkMessagesNeoForge {
 
@@ -39,7 +43,18 @@ public class NetworkMessagesNeoForge {
                 new DirectionalPayloadHandler<>(
                         (openInboxScreenMessage, context) ->
                                 OpenInboxScreenHandler.handle(openInboxScreenMessage, context.player()),
-                        null
+                        (ignored1,ignored2) ->{}
+                )
+        );
+
+        registrar.playBidirectional(
+                InteractionRequestMessage.ID,
+                InteractionRequestMessage.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        (requestMessage, context) ->
+                                InteractionRequestHandler.handle(requestMessage, context.player()),
+                        (requestMessage, context) ->
+                                InteractionRequestHandler.handle(requestMessage, context.player())
                 )
         );
     }

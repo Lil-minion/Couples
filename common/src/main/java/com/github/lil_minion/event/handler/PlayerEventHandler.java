@@ -1,9 +1,14 @@
 package com.github.lil_minion.event.handler;
 
 import com.github.lil_minion.item.WeddingRingItem;
+import com.github.lil_minion.model.relationship.interaction.InteractionRequest;
+import com.github.lil_minion.model.relationship.interaction.InteractionRequestType;
 import com.github.lil_minion.server.data.MarriageSavedData;
 import com.github.lil_minion.utils.ChatUtil;
+import com.github.lil_minion.utils.InteractionUtil;
 import com.github.lil_minion.utils.MarriageUtil;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
 /**
@@ -30,11 +35,19 @@ public class PlayerEventHandler {
                 if (!MarriageUtil.alreadySentProposal(playerOrigin, playerTarget)) {
                     MarriageSavedData.MARRIAGE_PROPOSAL_MAP.put(playerTarget.getUUID(), playerOrigin.getUUID());
 
-                    // Send chat message to the playerTarget
-                    playerTarget.displayClientMessage(
-                            ChatUtil.createPlayerTranslatableComponent(playerOrigin,
-                                    "messages.couples.marry_me"), false
+                    InteractionRequest request = new InteractionRequest(playerOrigin.getUUID(),
+                            playerTarget.getUUID(), playerOrigin.level().getGameTime(),
+                            InteractionRequestType.MARRIAGE_PROPOSAL,
+                            Component.translatable("messages.couples.marry_me"), false
                     );
+
+                    if (playerTarget instanceof ServerPlayer serverPlayerTarget) {
+                        InteractionUtil.interact(playerOrigin, serverPlayerTarget,
+                                Component.translatable("messages.couples.marry_me"),
+                                InteractionRequestType.MARRIAGE_PROPOSAL
+                        );
+                    }
+
                 }
             }
         }
