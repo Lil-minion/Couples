@@ -10,7 +10,7 @@ import java.util.UUID;
  */
 public class InteractionVolatileData {
 
-    // Todo implement cooldowns
     public static final Map<UUID, Long> INTERACTION_COOLDOWN_MAP = new HashMap<>();
 
+    public static final Map<UUID, Long> MARRIAGE_PROPOSAL_COOLDOWN_MAP = new HashMap<>();
 }

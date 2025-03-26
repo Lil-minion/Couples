@@ -19,7 +19,6 @@ import java.util.*;
 public class MarriageSavedData extends SavedData {
 
     public static final Map<UUID, Marriage> MARRIAGE_MAP = new HashMap<>();
-    public static final Map<UUID, Long> MARRIAGE_PROPOSAL_COOLDOWN_MAP = new HashMap<>();
 
     private static final Set<Marriage> MARRIAGE_SET = new HashSet<>();
 

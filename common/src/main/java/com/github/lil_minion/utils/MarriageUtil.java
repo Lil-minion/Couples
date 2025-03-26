@@ -1,6 +1,7 @@
 package com.github.lil_minion.utils;
 
 import com.github.lil_minion.model.relationship.marriage.Marriage;
+import com.github.lil_minion.server.data.InteractionVolatileData;
 import com.github.lil_minion.server.data.MarriageSavedData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -88,8 +89,8 @@ public class MarriageUtil {
      * @return True if a proposal cooldown is active, otherwise false
      */
     public static boolean isOnProposalCooldown(UUID originPlayerUUID, long gameTime) {
-        if (MarriageSavedData.MARRIAGE_PROPOSAL_COOLDOWN_MAP.containsKey(originPlayerUUID)) {
-            return MarriageSavedData.MARRIAGE_PROPOSAL_COOLDOWN_MAP.get(originPlayerUUID) > gameTime + 12000;
+        if (InteractionVolatileData.MARRIAGE_PROPOSAL_COOLDOWN_MAP.containsKey(originPlayerUUID)) {
+            return InteractionVolatileData.MARRIAGE_PROPOSAL_COOLDOWN_MAP.get(originPlayerUUID) > gameTime + 12000;
         }
         return false;
     }

@@ -3,6 +3,7 @@ package com.github.lil_minion.event.handler;
 import com.github.lil_minion.item.WeddingRingItem;
 import com.github.lil_minion.model.relationship.interaction.InteractionRequestType;
 import com.github.lil_minion.model.relationship.romance.Romance;
+import com.github.lil_minion.server.data.InteractionVolatileData;
 import com.github.lil_minion.server.data.MarriageSavedData;
 import com.github.lil_minion.server.data.RomanceSavedData;
 import com.github.lil_minion.utils.ChatUtil;
@@ -54,7 +55,7 @@ public class PlayerEventHandler {
                                 long currentGameDayTime = playerOrigin.level().getDayTime();
                                 long currentGameTime = playerOrigin.level().getGameTime();
                                 long cooldown = currentGameTime + ((currentGameDayTime < 8000 ? 8000 : 31000) - currentGameDayTime);
-                                MarriageSavedData.MARRIAGE_PROPOSAL_COOLDOWN_MAP.put(playerOrigin.getUUID(), cooldown);
+                                InteractionVolatileData.MARRIAGE_PROPOSAL_COOLDOWN_MAP.put(playerOrigin.getUUID(), cooldown);
                             } else {
                                 MutableComponent combinedMessage = Component.translatable("messages.couples.not_enough_hearts");
                                 playerOrigin.displayClientMessage(combinedMessage.append(romance.getHearths() + "/20"), false);
