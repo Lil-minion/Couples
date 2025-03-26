@@ -46,4 +46,13 @@ public class Inbox {
     public void addMail(Mail mail) {
         mails.add(mail);
     }
+
+    /**
+     * Adds a list of new mails to the inbox.
+     *
+     * @param mails The {@link List} of {@link Mail} objects to be added to the inbox.
+     */
+    public void addMail(List<Mail> mails) {
+        mails.forEach(this::addMail);
+    }
 }

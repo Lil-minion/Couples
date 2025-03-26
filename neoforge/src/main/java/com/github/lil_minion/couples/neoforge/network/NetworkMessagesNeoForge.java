@@ -1,11 +1,13 @@
 package com.github.lil_minion.couples.neoforge.network;
 
 import com.github.lil_minion.network.handler.InteractionRequestHandler;
-import com.github.lil_minion.network.handler.MailMessageHandler;
-import com.github.lil_minion.network.handler.OpenInboxScreenHandler;
+import com.github.lil_minion.network.handler.MailHandler;
+import com.github.lil_minion.network.handler.InboxHandler;
+import com.github.lil_minion.network.handler.CommandHandler;
 import com.github.lil_minion.network.message.InteractionRequestMessage;
 import com.github.lil_minion.network.message.MailMessage;
-import com.github.lil_minion.network.message.OpenInboxScreenMessage;
+import com.github.lil_minion.network.message.InboxMessage;
+import com.github.lil_minion.network.message.CommandMessage;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -31,18 +33,18 @@ public class NetworkMessagesNeoForge {
                 MailMessage.STREAM_CODEC,
                 new DirectionalPayloadHandler<>(
                         (mailMessage, context) ->
-                                MailMessageHandler.handle(mailMessage, context.player()),
+                                MailHandler.handle(mailMessage, context.player()),
                         (mailMessage, context) ->
-                                MailMessageHandler.handle(mailMessage, context.player())
+                                MailHandler.handle(mailMessage, context.player())
                 )
         );
 
         registrar.playBidirectional(
-                OpenInboxScreenMessage.ID,
-                OpenInboxScreenMessage.STREAM_CODEC,
+                InboxMessage.ID,
+                InboxMessage.STREAM_CODEC,
                 new DirectionalPayloadHandler<>(
                         (openInboxScreenMessage, context) ->
-                                OpenInboxScreenHandler.handle(openInboxScreenMessage, context.player()),
+                                InboxHandler.handle(openInboxScreenMessage, context.player()),
                         (ignored1,ignored2) ->{}
                 )
         );
@@ -55,6 +57,17 @@ public class NetworkMessagesNeoForge {
                                 InteractionRequestHandler.handle(requestMessage, context.player()),
                         (requestMessage, context) ->
                                 InteractionRequestHandler.handle(requestMessage, context.player())
+                )
+        );
+
+        registrar.playBidirectional(
+                CommandMessage.ID,
+                CommandMessage.STREAM_CODEC,
+                new DirectionalPayloadHandler<>(
+                        (requestMessage, context) ->
+                                CommandHandler.handle(requestMessage.message(), context.player()),
+                        (requestMessage, context) ->
+                                CommandHandler.handle(requestMessage.message(), context.player())
                 )
         );
     }

@@ -1,8 +1,15 @@
 package com.github.lil_minion.couples.fabric.event;
 
 import com.github.lil_minion.event.handler.PlayerEventHandler;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
 /**
@@ -21,6 +28,48 @@ public class PlayerEventsFabric {
 
             return InteractionResult.PASS;
         }));
+
+        ClientEntityEvents.ENTITY_LOAD.register((Entity entity, ClientLevel level) -> {
+            if (entity instanceof LocalPlayer player) {
+                PlayerEventHandler.onPlayerJoinServer(player, level);
+            }
+        });
+
+        ClientEntityEvents.ENTITY_UNLOAD.register((Entity entity, ClientLevel level) -> {
+            if (entity instanceof LocalPlayer player) {
+                PlayerEventHandler.onPlayerLeaveServer(player, level);
+            }
+        });
+
+        ServerEntityEvents.ENTITY_LOAD.register((Entity entity, ServerLevel level) -> {
+            if (entity instanceof ServerPlayer player) {
+                PlayerEventHandler.onPlayerJoinServer(player, level);
+            }
+        });
+
+        ServerEntityEvents.ENTITY_UNLOAD.register((Entity entity, ServerLevel level) -> {
+            if (entity instanceof ServerPlayer player) {
+                PlayerEventHandler.onPlayerLeaveServer(player, level);
+            }
+        });
+
     }
+
+
+    /*
+    @SubscribeEvent
+    private static void entityJoinLevel(EntityJoinLevelEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            PlayerEventHandler.onPlayerJoinServer(player);
+        }
+    }
+
+    @SubscribeEvent
+    private static void entityLeaveLevel(EntityLeaveLevelEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            PlayerEventHandler.onPlayerLeaveServer(player);
+        }
+    }
+     */
 
 }

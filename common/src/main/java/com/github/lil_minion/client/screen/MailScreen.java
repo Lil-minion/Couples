@@ -1,6 +1,8 @@
 package com.github.lil_minion.client.screen;
 
+import com.github.lil_minion.client.data.InboxVolatileData;
 import com.github.lil_minion.model.mail.Inbox;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -10,16 +12,13 @@ import net.minecraft.network.chat.Component;
  */
 public class MailScreen extends Screen {
 
-    final Inbox inbox;
-
     /**
      * Constructs a new MailScreen with the specified inbox.
-     *
-     * @param inbox The inbox to be displayed on this screen.
      */
-    public MailScreen(Inbox inbox) {
+    public MailScreen() {
         super(Component.translatable("gui.screen.couples.mail_screen"));
-        this.inbox = inbox;
+
+        InboxVolatileData.getClientInbox().getMails().forEach(System.out::println);
     }
 
 }

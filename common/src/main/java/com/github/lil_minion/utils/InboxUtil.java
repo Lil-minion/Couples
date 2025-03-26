@@ -3,7 +3,8 @@ package com.github.lil_minion.utils;
 import com.github.lil_minion.ModLoaderMethods;
 import com.github.lil_minion.network.message.MailMessage;
 import com.github.lil_minion.model.mail.Inbox;
-import com.github.lil_minion.network.message.OpenInboxScreenMessage;
+import com.github.lil_minion.network.message.InboxMessage;
+import com.github.lil_minion.network.message.CommandMessage;
 import com.github.lil_minion.server.data.InboxSavedData;
 import com.github.lil_minion.model.mail.Mail;
 import com.github.lil_minion.model.mail.MailType;
@@ -92,8 +93,12 @@ public class InboxUtil {
      * @param player The player whose inbox screen is to be opened.
      */
     public static void openInboxScreen(ServerPlayer player) {
+        ModLoaderMethods.sendMessageToClient(player, new CommandMessage("gui.inbox"));
+    }
+
+    public static void sendInbox(ServerPlayer player) {
         Inbox inbox = InboxSavedData.PLAYER_INBOX_MAP.getOrDefault(player.getUUID(), new Inbox(player.getUUID()));
-        ModLoaderMethods.sendMessageToClient(player, InboxUtil.createOpenInboxScreenRequest(inbox));
+        ModLoaderMethods.sendMessageToClient(player, InboxUtil.sendInbox(inbox));
     }
 
     /**
@@ -102,26 +107,26 @@ public class InboxUtil {
      * @param inbox The Inbox object to create the request for.
      * @return An OpenInboxScreenMessage containing the mail messages.
      */
-    public static OpenInboxScreenMessage createOpenInboxScreenRequest(Inbox inbox) {
+    public static InboxMessage sendInbox(Inbox inbox) {
         List<MailMessage> mailMessages = new ArrayList<>();
         List<Mail> mails = inbox.getMails();
 
         mails.forEach(mail -> mailMessages.add(createMessage(mail, false)));
-        return new OpenInboxScreenMessage(mailMessages);
+        return new InboxMessage(mailMessages);
     }
 
     /**
-     * Decodes an OpenInboxScreenMessage into an Inbox object.
+     * Decodes an {@link InboxMessage} into an Inbox object.
      *
-     * @param openInboxScreenMessage The OpenInboxScreenMessage to decode.
-     * @param player                 The player associated with the inbox.
+     * @param inboxMessage The {@link InboxMessage}to decode.
+     * @param player       The player associated with the inbox.
      * @return An Inbox object representing the decoded inbox.
      */
-    public static Inbox decodeInbox(OpenInboxScreenMessage openInboxScreenMessage, Player player) {
+    public static Inbox decodeInbox(InboxMessage inboxMessage, Player player) {
         Inbox inbox = new Inbox(player.getUUID());
 
         List<Mail> mails = new ArrayList<>();
-        List<MailMessage> mailMessages = openInboxScreenMessage.mails();
+        List<MailMessage> mailMessages = inboxMessage.mails();
 
         mailMessages.forEach(mailMessage -> mails.add(InboxUtil.decodeMailMessage(mailMessage)));
         mails.forEach(inbox::addMail);

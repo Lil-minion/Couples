@@ -1,5 +1,6 @@
 package com.github.lil_minion.event.handler;
 
+import com.github.lil_minion.client.data.InboxVolatileData;
 import com.github.lil_minion.item.WeddingRingItem;
 import com.github.lil_minion.model.relationship.interaction.InteractionRequestType;
 import com.github.lil_minion.model.relationship.romance.Romance;
@@ -7,12 +8,16 @@ import com.github.lil_minion.server.data.InteractionVolatileData;
 import com.github.lil_minion.server.data.MarriageSavedData;
 import com.github.lil_minion.server.data.RomanceSavedData;
 import com.github.lil_minion.utils.ChatUtil;
+import com.github.lil_minion.utils.InboxUtil;
 import com.github.lil_minion.utils.InteractionUtil;
 import com.github.lil_minion.utils.MarriageUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -67,6 +72,21 @@ public class PlayerEventHandler {
                 } else {
                     playerOrigin.displayClientMessage(Component.translatable("messages.couples.proposal_cooldown"), false);
                 }
+            }
+        }
+    }
+
+    public static void onPlayerJoinServer(Player player, Level level) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            InboxUtil.sendInbox(serverPlayer);
+        }
+    }
+
+    public static void onPlayerLeaveServer(Player player, Level level) {
+        // Clear inbox when player leaves server (to avoid cross server shared mail)
+        if (player instanceof LocalPlayer localPlayer) {
+            if (Minecraft.getInstance().player.equals(localPlayer)) {
+                InboxVolatileData.setClientInbox(null);
             }
         }
     }

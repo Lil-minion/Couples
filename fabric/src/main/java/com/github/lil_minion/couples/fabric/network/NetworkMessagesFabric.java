@@ -1,11 +1,13 @@
 package com.github.lil_minion.couples.fabric.network;
 
 import com.github.lil_minion.network.handler.InteractionRequestHandler;
-import com.github.lil_minion.network.handler.MailMessageHandler;
-import com.github.lil_minion.network.handler.OpenInboxScreenHandler;
+import com.github.lil_minion.network.handler.MailHandler;
+import com.github.lil_minion.network.handler.InboxHandler;
+import com.github.lil_minion.network.handler.CommandHandler;
 import com.github.lil_minion.network.message.MailMessage;
-import com.github.lil_minion.network.message.OpenInboxScreenMessage;
+import com.github.lil_minion.network.message.InboxMessage;
 import com.github.lil_minion.network.message.InteractionRequestMessage;
+import com.github.lil_minion.network.message.CommandMessage;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -24,13 +26,16 @@ public class NetworkMessagesFabric {
      */
     public static void registerClient() {
         ClientPlayNetworking.registerGlobalReceiver(MailMessage.ID, (mailMessage, context) ->
-                MailMessageHandler.handle(mailMessage, context.player()));
+                MailHandler.handle(mailMessage, context.player()));
 
         ClientPlayNetworking.registerGlobalReceiver(InteractionRequestMessage.ID, (requestMessage, context) ->
                 InteractionRequestHandler.handle(requestMessage, context.player()));
 
-        ClientPlayNetworking.registerGlobalReceiver(OpenInboxScreenMessage.ID, (openInboxScreenMessage, context) ->
-                OpenInboxScreenHandler.handle(openInboxScreenMessage, context.player()));
+        ClientPlayNetworking.registerGlobalReceiver(InboxMessage.ID, (openInboxScreenMessage, context) ->
+                InboxHandler.handle(openInboxScreenMessage, context.player()));
+
+        ClientPlayNetworking.registerGlobalReceiver(CommandMessage.ID, (simpleMessage, context) ->
+                CommandHandler.handle(simpleMessage.message(), context.player()));
     }
 
     /**
@@ -45,10 +50,16 @@ public class NetworkMessagesFabric {
         PayloadTypeRegistry.playS2C().register(InteractionRequestMessage.ID, InteractionRequestMessage.STREAM_CODEC);
         PayloadTypeRegistry.playC2S().register(InteractionRequestMessage.ID, InteractionRequestMessage.STREAM_CODEC);
 
-        PayloadTypeRegistry.playS2C().register(OpenInboxScreenMessage.ID, OpenInboxScreenMessage.STREAM_CODEC);
+        PayloadTypeRegistry.playS2C().register(CommandMessage.ID, CommandMessage.STREAM_CODEC);
+        PayloadTypeRegistry.playC2S().register(CommandMessage.ID, CommandMessage.STREAM_CODEC);
+
+        PayloadTypeRegistry.playS2C().register(InboxMessage.ID, InboxMessage.STREAM_CODEC);
 
         ServerPlayNetworking.registerGlobalReceiver(MailMessage.ID, (mailMessage, context) ->
-                MailMessageHandler.handle(mailMessage, context.player()));
+                MailHandler.handle(mailMessage, context.player()));
+
+        ServerPlayNetworking.registerGlobalReceiver(CommandMessage.ID, (simpleMessage, context) ->
+                CommandHandler.handle(simpleMessage.message(), context.player()));
 
         ServerPlayNetworking.registerGlobalReceiver(InteractionRequestMessage.ID, (requestMessage, context) ->
                 InteractionRequestHandler.handle(requestMessage, context.player()));

@@ -12,22 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a message to open the inbox screen for a player.
+ * Represents a message with the inbox for a player.
  * This record encapsulates a list of mail messages that will be displayed
- * in the inbox (until local mail storage is properly implemented).
+ * in the inbox.
  */
-public record OpenInboxScreenMessage(List<MailMessage> mails) implements CustomPacketPayload {
+public record InboxMessage(List<MailMessage> mails) implements CustomPacketPayload {
 
-    public static final ResourceLocation MESSAGE_ID = new ResourceLocation(Couples.MOD_ID + ":open_inbox_screen");
-    public static final CustomPacketPayload.Type<OpenInboxScreenMessage> ID = new CustomPacketPayload.Type<>(MESSAGE_ID);
+    public static final ResourceLocation MESSAGE_ID = new ResourceLocation(Couples.MOD_ID + ":send_inbox");
+    public static final CustomPacketPayload.Type<InboxMessage> ID = new CustomPacketPayload.Type<>(MESSAGE_ID);
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, OpenInboxScreenMessage> STREAM_CODEC = StreamCodec.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, InboxMessage> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.collection(
                     ArrayList::new,
                     MailMessage.STREAM_CODEC,
                     1000
-            ), OpenInboxScreenMessage::mails,
-            OpenInboxScreenMessage::new
+            ), InboxMessage::mails,
+            InboxMessage::new
     );
 
     /**
