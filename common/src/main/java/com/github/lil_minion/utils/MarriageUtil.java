@@ -81,28 +81,27 @@ public class MarriageUtil {
     }
 
     /**
-     * Checks if a marriage proposal has already been sent from the origin player to the target player.
+     * Checks if marriage proposal are on cooldown
      *
      * @param originPlayerUUID The {@link UUID} of the player who sent the proposal.
-     * @param targetPlayerUUID The {@link UUID} of the player who received the proposal.
-     * @return True if a proposal has already been sent, false otherwise.
+     * @param gameTime The current game time.
+     * @return True if a proposal cooldown is active, otherwise false
      */
-    public static boolean alreadySentProposal(UUID originPlayerUUID, UUID targetPlayerUUID) {
-        if (MarriageSavedData.MARRIAGE_PROPOSAL_MAP.containsKey(targetPlayerUUID)) {
-            return MarriageSavedData.MARRIAGE_PROPOSAL_MAP.get(targetPlayerUUID) == originPlayerUUID;
+    public static boolean isOnProposalCooldown(UUID originPlayerUUID, long gameTime) {
+        if (MarriageSavedData.MARRIAGE_PROPOSAL_COOLDOWN_MAP.containsKey(originPlayerUUID)) {
+            return MarriageSavedData.MARRIAGE_PROPOSAL_COOLDOWN_MAP.get(originPlayerUUID) > gameTime + 12000;
         }
         return false;
     }
 
     /**
-     * Checks if a marriage proposal has already been sent from the origin player to the target player.
+     * Checks if marriage proposal are on cooldown
      *
      * @param originPlayer The {@link Player} who sent the proposal.
-     * @param targetPlayer The {@link Player} who received the proposal.
-     * @return True if a proposal has already been sent, false otherwise.
+     * @return True if a proposal cooldown is active, otherwise false
      */
-    public static boolean alreadySentProposal(Player originPlayer, Player targetPlayer) {
-        return alreadySentProposal(originPlayer.getUUID(), targetPlayer.getUUID());
+    public static boolean isOnProposalCooldown(Player originPlayer) {
+        return isOnProposalCooldown(originPlayer.getUUID(), originPlayer.level().getGameTime());
     }
 
 }

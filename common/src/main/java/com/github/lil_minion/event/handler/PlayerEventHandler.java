@@ -37,8 +37,7 @@ public class PlayerEventHandler {
             if (!originMarried && !targetMarried) {
 
                 // Check if already sent a proposal, if so then don't send another
-                if (!MarriageUtil.alreadySentProposal(playerOrigin, playerTarget)) {
-                    MarriageSavedData.MARRIAGE_PROPOSAL_MAP.put(playerTarget.getUUID(), playerOrigin.getUUID());
+                if (!MarriageUtil.isOnProposalCooldown(playerOrigin)) {
 
                     if (playerTarget instanceof ServerPlayer serverPlayerTarget) {
                         Optional<Romance> romanceOpt = RomanceSavedData.ROMANCE_MAP.getOrDefault(playerOrigin.getUUID(), new ArrayList<>())
@@ -52,6 +51,10 @@ public class PlayerEventHandler {
                                         ChatUtil.createPlayerTranslatableComponent(playerOrigin, "messages.couples.marry_me"),
                                         InteractionRequestType.MARRIAGE_PROPOSAL
                                 );
+                                long currentGameDayTime = playerOrigin.level().getDayTime();
+                                long currentGameTime = playerOrigin.level().getGameTime();
+                                long cooldown = currentGameTime + ((currentGameDayTime < 8000 ? 8000 : 31000) - currentGameDayTime);
+                                MarriageSavedData.MARRIAGE_PROPOSAL_COOLDOWN_MAP.put(playerOrigin.getUUID(), cooldown);
                             } else {
                                 MutableComponent combinedMessage = Component.translatable("messages.couples.not_enough_hearts");
                                 playerOrigin.displayClientMessage(combinedMessage.append(romance.getHearths() + "/20"), false);
@@ -60,6 +63,8 @@ public class PlayerEventHandler {
                             playerOrigin.displayClientMessage(Component.translatable("messages.couples.not_in_romance"), false);
                         }
                     }
+                } else {
+                    playerOrigin.displayClientMessage(Component.translatable("messages.couples.proposal_cooldown"), false);
                 }
             }
         }

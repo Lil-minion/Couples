@@ -10,5 +10,6 @@
   "messages.couples.need_written_book": "Necesitas un libro escrito en tu mano para enviar un correo.",
   "messages.couples.not_enough_hearts": "Necesitas 20 corazones para casarte. Tienes",
   "messages.couples.not_in_romance":  "Necesitas estar en una relación romántica para casarte con esta persona.",
+  "messages.couples.proposal_cooldown": "Ya has intentado casarte hoy, prueba otra vez mañana.",
   "gui.screen.couples.mail_screen": "Bandeja de entrada"
 }
