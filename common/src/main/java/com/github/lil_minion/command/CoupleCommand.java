@@ -246,7 +246,9 @@ public class CoupleCommand {
                 );
 
                 // Send mail, remove book, and send mail_sent message to target
-                InboxUtil.sendMail(serverPlayer, mail, false);
+                if (target instanceof ServerPlayer serverPlayerTarget) {
+                    InboxUtil.sendMail(serverPlayerTarget, mail, false);
+                }
                 mainHandStack.setCount(0);
                 player.displayClientMessage(Component.translatable("messages.couples.mail_sent"), false);
             }
