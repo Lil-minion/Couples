@@ -1,0 +1,10 @@
+{
+  "kiss": {
+    "subtitle": "sound.couples.kiss",
+    "sounds": [
+      {
+        "name": "couples:kiss"
+      }
+    ]
+  }
+}

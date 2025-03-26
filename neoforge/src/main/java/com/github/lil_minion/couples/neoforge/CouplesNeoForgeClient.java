@@ -20,7 +20,7 @@ public class CouplesNeoForgeClient {
      */
     @SubscribeEvent
     public static void setup(FMLClientSetupEvent event) {
-        MethodUploaderNeoForge.toCommonCodeForClient();
+        MethodUploaderNeoForge.uploadForClient();
     }
 
 }

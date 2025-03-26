@@ -11,5 +11,6 @@
   "messages.couples.not_enough_hearts": "Je hebt 20 harten nodig om te trouwen. Je hebt er",
   "messages.couples.not_in_romance": "Je moet in een romantische relatie zijn om met deze persoon te trouwen.",
   "messages.couples.proposal_cooldown": "Je hebt vandaag al geprobeerd te voorstellen, probeer het morgen opnieuw.",
-  "gui.screen.couples.mail_screen": "Inbox"
+  "gui.screen.couples.mail_screen": "Inbox",
+  "sound.couples.kiss": "Kus"
 }

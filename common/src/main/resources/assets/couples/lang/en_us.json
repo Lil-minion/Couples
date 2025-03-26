@@ -11,5 +11,6 @@
   "messages.couples.not_enough_hearts": "You need have 20 hearths to propose marriage. You have",
   "messages.couples.not_in_romance": "You need to be in a romantic relationship to marry this person",
   "messages.couples.proposal_cooldown": "You already proposes today, try again tomorrow.",
-  "gui.screen.couples.mail_screen": "Inbox"
+  "gui.screen.couples.mail_screen": "Inbox",
+  "sound.couples.kiss": "Kiss"
 }

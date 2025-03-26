@@ -6,6 +6,8 @@ import com.github.lil_minion.couples.fabric.event.ServerEventsFabric;
 import com.github.lil_minion.couples.fabric.registry.CreativeTabFabric;
 import com.github.lil_minion.couples.fabric.registry.ItemsFabric;
 import com.github.lil_minion.couples.fabric.network.NetworkMessagesFabric;
+import com.github.lil_minion.couples.fabric.registry.SoundsFabric;
+import com.github.lil_minion.uploaded.UploadedRegistries;
 import net.fabricmc.api.ModInitializer;
 
 /**
@@ -24,8 +26,9 @@ public final class CouplesFabric implements ModInitializer {
         ItemsFabric.register();
         CreativeTabFabric.register();
         NetworkMessagesFabric.registerServer();
-        MethodUploaderFabric.toCommonCodeForServer();
+        MethodUploaderFabric.uploadForBoth();
         PlayerEventsFabric.register();
         ServerEventsFabric.register();
+        SoundsFabric.register();
     }
 }

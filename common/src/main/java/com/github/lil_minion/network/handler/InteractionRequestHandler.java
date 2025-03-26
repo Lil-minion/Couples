@@ -5,6 +5,7 @@ import com.github.lil_minion.model.relationship.interaction.InteractionRequest;
 import com.github.lil_minion.model.relationship.marriage.Marriage;
 import com.github.lil_minion.model.relationship.romance.Romance;
 import com.github.lil_minion.network.message.InteractionRequestMessage;
+import com.github.lil_minion.uploaded.UploadedRegistries;
 import com.github.lil_minion.server.data.RomanceSavedData;
 import com.github.lil_minion.utils.EffectUtil;
 import com.github.lil_minion.utils.relationship.MarriageUtil;
@@ -13,7 +14,9 @@ import com.github.lil_minion.utils.network.MessageDecoderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.component.FireworkExplosion;
 
@@ -43,8 +46,8 @@ public class InteractionRequestHandler {
             // Todo implement server-side handling
             switch (request.interactionRequestType()) {
                 case MARRIAGE_PROPOSAL -> marriageAccepted(player, request);
-                case FLIRT_REQUEST -> flirtAccepted();
-                case KISS_REQUEST -> kissAccepted();
+                case FLIRT_REQUEST -> flirtAccepted(player, request);
+                case KISS_REQUEST -> kissAccepted(player, request);
             }
         }
     }
@@ -55,7 +58,7 @@ public class InteractionRequestHandler {
         // Assume the romance exists as it was checked before sending
         Romance romance = RomanceSavedData.ROMANCE_MAP.getOrDefault(request.recipient(), new ArrayList<>())
                 .stream().filter(r -> r.isPlayerInRelationship(request.sender()))
-                .findFirst().get();
+                .findFirst().orElse(null);
 
         // Create marriage and delete romance
         Marriage marriage = new Marriage(request.sender(),
@@ -83,12 +86,16 @@ public class InteractionRequestHandler {
         }
     }
 
-    private static void flirtAccepted() {
+    private static void flirtAccepted(Player playerTarget, InteractionRequest request) {
 
     }
 
-    private static void kissAccepted() {
-
+    private static void kissAccepted(Player playerTarget, InteractionRequest request) {
+        if (playerTarget instanceof ServerPlayer serverPlayer) {
+            if (playerTarget.level() instanceof ServerLevel serverLevel) {
+                serverLevel.playSound(null, serverPlayer.blockPosition(), UploadedRegistries.KISS, SoundSource.PLAYERS, 1, 1);
+            }
+        }
     }
 
 }

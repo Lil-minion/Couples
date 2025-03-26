@@ -16,6 +16,6 @@ public final class CouplesFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         NetworkMessagesFabric.registerClient();
-        MethodUploaderFabric.toCommonCodeForClient();
+        MethodUploaderFabric.uploadForClient();
     }
 }

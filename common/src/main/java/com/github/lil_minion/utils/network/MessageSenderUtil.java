@@ -1,6 +1,6 @@
 package com.github.lil_minion.utils.network;
 
-import com.github.lil_minion.ModLoaderMethods;
+import com.github.lil_minion.uploaded.UploadedMethods;
 import com.github.lil_minion.model.mail.Inbox;
 import com.github.lil_minion.model.mail.Mail;
 import com.github.lil_minion.model.relationship.interaction.InteractionRequest;
@@ -19,7 +19,7 @@ public class MessageSenderUtil {
      * @param toServer Indicates if the message is to be sent to the server.
      */
     public static void sendMail(ServerPlayer player, Mail mail, boolean toServer) {
-        ModLoaderMethods.sendMessageToClient(player, MessageEncoderUtil.encode(mail, toServer));
+        UploadedMethods.sendMessageToClient(player, MessageEncoderUtil.encode(mail, toServer));
     }
 
     /**
@@ -28,12 +28,12 @@ public class MessageSenderUtil {
      * @param player The player whose inbox screen is to be opened.
      */
     public static void openInboxScreen(ServerPlayer player) {
-        ModLoaderMethods.sendMessageToClient(player, new CommandMessage("gui.inbox"));
+        UploadedMethods.sendMessageToClient(player, new CommandMessage("gui.inbox"));
     }
 
     public static void sendInbox(ServerPlayer player) {
         Inbox inbox = InboxSavedData.PLAYER_INBOX_MAP.getOrDefault(player.getUUID(), new Inbox(player.getUUID()));
-        ModLoaderMethods.sendMessageToClient(player, MessageEncoderUtil.encode(inbox));
+        UploadedMethods.sendMessageToClient(player, MessageEncoderUtil.encode(inbox));
     }
 
     /**
@@ -45,13 +45,13 @@ public class MessageSenderUtil {
     public static void sendInteractionRequest(Player player, InteractionRequest request) {
         InteractionRequestMessage message = MessageEncoderUtil.encode(request);
         if (player instanceof ServerPlayer serverPlayer) {
-            ModLoaderMethods.sendMessageToClient(serverPlayer, message);
+            UploadedMethods.sendMessageToClient(serverPlayer, message);
         } else {
-            ModLoaderMethods.sendMessageToServer(message);
+            UploadedMethods.sendMessageToServer(message);
         }
     }
 
     public static void clearInbox(ServerPlayer player) {
-        ModLoaderMethods.sendMessageToClient(player, new CommandMessage("inbox.clear"));
+        UploadedMethods.sendMessageToClient(player, new CommandMessage("inbox.clear"));
     }
 }

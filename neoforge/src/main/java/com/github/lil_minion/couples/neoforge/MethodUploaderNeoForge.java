@@ -1,6 +1,7 @@
 package com.github.lil_minion.couples.neoforge;
 
-import com.github.lil_minion.ModLoaderMethods;
+import com.github.lil_minion.couples.neoforge.registry.SoundsNeoForge;
+import com.github.lil_minion.uploaded.UploadedMethods;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 /**
@@ -9,21 +10,18 @@ import net.neoforged.neoforge.network.PacketDistributor;
 public class MethodUploaderNeoForge {
 
     /**
-     * Sets the method for sending messages from the server to the client.
-     * This method assigns the server-side networking method to the
-     * ModLoaderMethods for sending messages.
+     * Sets the methods for both the server and client side
      */
-    public static void toCommonCodeForServer() {
-        ModLoaderMethods.sendMessageToClientMethod = PacketDistributor::sendToPlayer;
+    public static void uploadForBoth() {
+        UploadedMethods.sendMessageToClientMethod = PacketDistributor::sendToPlayer;
+        UploadedMethods.getKissSoundEvent = SoundsNeoForge.KISS;
     }
 
     /**
-     * Sets the method for sending messages from the client to the server.
-     * This method assigns the client-side networking method to the
-     * ModLoaderMethods for sending messages.
+     * Sets the methods for both the client side
      */
-    public static void toCommonCodeForClient() {
-        ModLoaderMethods.sendMessageToServerMethod = PacketDistributor::sendToServer;
+    public static void uploadForClient() {
+        UploadedMethods.sendMessageToServerMethod = PacketDistributor::sendToServer;
     }
 
 }

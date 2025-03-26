@@ -50,7 +50,7 @@ public class InteractionRequestScreen extends Screen {
 
         // Reject button
         this.addRenderableWidget(Button.builder(Component.translatable("mco.invites.button.reject"),
-                button -> {this.onClose();}).bounds(this.width / 2, this.height / 2 + 20, 100, 20).build());
+                button -> this.onClose()).bounds(this.width / 2, this.height / 2 + 20, 100, 20).build());
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.github.lil_minion.couples.fabric;
 
-import com.github.lil_minion.ModLoaderMethods;
+import com.github.lil_minion.couples.fabric.registry.SoundsFabric;
+import com.github.lil_minion.uploaded.UploadedMethods;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
@@ -10,20 +11,17 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 public class MethodUploaderFabric {
 
     /**
-     * Sets the method for sending messages from the server to the client.
-     * This method assigns the server-side networking method to the
-     * ModLoaderMethods for sending messages.
+     * Sets the methods for both the server and client side
      */
-    public static void toCommonCodeForServer() {
-        ModLoaderMethods.sendMessageToClientMethod = ServerPlayNetworking::send;
+    public static void uploadForBoth() {
+        UploadedMethods.sendMessageToClientMethod = ServerPlayNetworking::send;
+        UploadedMethods.getKissSoundEvent = () -> SoundsFabric.KISS;
     }
 
     /**
-     * Sets the method for sending messages from the client to the server.
-     * This method assigns the client-side networking method to the
-     * ModLoaderMethods for sending messages.
+     * Sets the methods for the client side
      */
-    public static void toCommonCodeForClient() {
-        ModLoaderMethods.sendMessageToServerMethod = ClientPlayNetworking::send;
+    public static void uploadForClient() {
+        UploadedMethods.sendMessageToServerMethod = ClientPlayNetworking::send;
     }
 }

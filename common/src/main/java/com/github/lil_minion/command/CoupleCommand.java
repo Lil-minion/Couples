@@ -96,7 +96,6 @@ public class CoupleCommand {
 
         boolean sendMessage = false;
 
-        assert playerSource != null;
         if (MarriageUtil.isMarried(playerSource)) {
             Marriage marriage = MarriageSavedData.MARRIAGE_MAP.get(playerSource.getUUID());
 
