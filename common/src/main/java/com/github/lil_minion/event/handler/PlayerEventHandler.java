@@ -35,19 +35,13 @@ public class PlayerEventHandler {
                 if (!MarriageUtil.alreadySentProposal(playerOrigin, playerTarget)) {
                     MarriageSavedData.MARRIAGE_PROPOSAL_MAP.put(playerTarget.getUUID(), playerOrigin.getUUID());
 
-                    InteractionRequest request = new InteractionRequest(playerOrigin.getUUID(),
-                            playerTarget.getUUID(), playerOrigin.level().getGameTime(),
-                            InteractionRequestType.MARRIAGE_PROPOSAL,
-                            Component.translatable("messages.couples.marry_me"), false
-                    );
-
                     if (playerTarget instanceof ServerPlayer serverPlayerTarget) {
                         InteractionUtil.interact(playerOrigin, serverPlayerTarget,
-                                Component.translatable("messages.couples.marry_me"),
+                                ChatUtil.createPlayerMessageComponent(playerOrigin,
+                                        Component.translatable("messages.couples.marry_me"), " "),
                                 InteractionRequestType.MARRIAGE_PROPOSAL
                         );
                     }
-
                 }
             }
         }
