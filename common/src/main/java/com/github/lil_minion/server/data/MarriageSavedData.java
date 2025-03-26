@@ -53,7 +53,6 @@ public class MarriageSavedData extends SavedData {
      * @return A new instance of MarriageSavedData.
      */
     public static MarriageSavedData load(CompoundTag tag, HolderLookup.Provider registryLookup) {
-        MARRIAGE_MAP.clear();
         CompoundTag compoundTag = tag.getCompound("couples.marriage_data");
 
         for (String key : compoundTag.getAllKeys()) {

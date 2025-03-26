@@ -35,41 +35,11 @@ public class PlayerEventsFabric {
             }
         });
 
-        ClientEntityEvents.ENTITY_UNLOAD.register((Entity entity, ClientLevel level) -> {
-            if (entity instanceof LocalPlayer player) {
-                PlayerEventHandler.onPlayerLeaveServer(player, level);
-            }
-        });
-
         ServerEntityEvents.ENTITY_LOAD.register((Entity entity, ServerLevel level) -> {
             if (entity instanceof ServerPlayer player) {
                 PlayerEventHandler.onPlayerJoinServer(player, level);
             }
         });
-
-        ServerEntityEvents.ENTITY_UNLOAD.register((Entity entity, ServerLevel level) -> {
-            if (entity instanceof ServerPlayer player) {
-                PlayerEventHandler.onPlayerLeaveServer(player, level);
-            }
-        });
-
     }
-
-
-    /*
-    @SubscribeEvent
-    private static void entityJoinLevel(EntityJoinLevelEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            PlayerEventHandler.onPlayerJoinServer(player);
-        }
-    }
-
-    @SubscribeEvent
-    private static void entityLeaveLevel(EntityLeaveLevelEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            PlayerEventHandler.onPlayerLeaveServer(player);
-        }
-    }
-     */
 
 }

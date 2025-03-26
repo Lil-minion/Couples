@@ -50,7 +50,6 @@ public class InboxSavedData extends SavedData {
      * @return the loaded InboxSavedData instance
      */
     public static InboxSavedData load(CompoundTag tag, HolderLookup.Provider registryLookup) {
-        PLAYER_INBOX_MAP.clear();
         CompoundTag compoundTag = tag.getCompound("couples.mail_data");
         loadInboxes(compoundTag);
         return new InboxSavedData();

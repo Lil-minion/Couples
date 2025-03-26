@@ -52,7 +52,6 @@ public class RomanceSavedData extends SavedData {
      * @return A new instance of RomanceSavedData.
      */
     public static RomanceSavedData load(CompoundTag tag, HolderLookup.Provider registryLookup) {
-        ROMANCE_MAP.clear();
         CompoundTag compoundTag = tag.getCompound("couples.romance_data");
         loadRomances(compoundTag);
         return new RomanceSavedData();

@@ -2,13 +2,11 @@ package com.github.lil_minion.couples.neoforge.event;
 
 import com.github.lil_minion.Couples;
 import com.github.lil_minion.event.handler.PlayerEventHandler;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 /**
@@ -39,13 +37,5 @@ public class PlayerEventsNeoForge {
             PlayerEventHandler.onPlayerJoinServer(player, event.getLevel());
         }
     }
-
-    @SubscribeEvent
-    private static void entityLeaveLevel(EntityLeaveLevelEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            PlayerEventHandler.onPlayerLeaveServer(player, event.getLevel());
-        }
-    }
-
 
 }

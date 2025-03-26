@@ -51,5 +51,7 @@ public class MessageSenderUtil {
         }
     }
 
-
+    public static void clearInbox(ServerPlayer player) {
+        ModLoaderMethods.sendMessageToClient(player, new CommandMessage("inbox.clear"));
+    }
 }

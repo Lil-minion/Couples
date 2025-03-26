@@ -1,6 +1,5 @@
 package com.github.lil_minion.event.handler;
 
-import com.github.lil_minion.client.data.InboxVolatileData;
 import com.github.lil_minion.item.WeddingRingItem;
 import com.github.lil_minion.model.relationship.interaction.InteractionRequestType;
 import com.github.lil_minion.model.relationship.romance.Romance;
@@ -11,8 +10,6 @@ import com.github.lil_minion.utils.ChatUtil;
 import com.github.lil_minion.utils.relationship.InteractionUtil;
 import com.github.lil_minion.utils.relationship.MarriageUtil;
 import com.github.lil_minion.utils.network.MessageSenderUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -78,16 +75,8 @@ public class PlayerEventHandler {
 
     public static void onPlayerJoinServer(Player player, Level level) {
         if (player instanceof ServerPlayer serverPlayer) {
+            MessageSenderUtil.clearInbox(serverPlayer);
             MessageSenderUtil.sendInbox(serverPlayer);
-        }
-    }
-
-    public static void onPlayerLeaveServer(Player player, Level level) {
-        // Clear inbox when player leaves server (to avoid cross server shared mail)
-        if (player instanceof LocalPlayer localPlayer) {
-            if (Minecraft.getInstance().player.equals(localPlayer)) {
-                InboxVolatileData.setClientInbox(null);
-            }
         }
     }
 
