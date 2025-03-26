@@ -8,5 +8,7 @@
   "messages.couples.you_got_mail": "Je hebt mail, check jou inbox.",
   "messages.couples.mail_sent": "Jou kaart is verstuurd.",
   "messages.couples.need_written_book": "Je hebt een geschreven boek nodig in jou hand om en kaart te verstuuren.",
+  "messages.couples.not_enough_hearts": "Je hebt 20 harten nodig om te trouwen. Je hebt er",
+  "messages.couples.not_in_romance": "Je moet in een romantische relatie zijn om met deze persoon te trouwen.",
   "gui.screen.couples.mail_screen": "Inbox"
 }

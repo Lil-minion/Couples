@@ -1,15 +1,20 @@
 package com.github.lil_minion.event.handler;
 
 import com.github.lil_minion.item.WeddingRingItem;
-import com.github.lil_minion.model.relationship.interaction.InteractionRequest;
 import com.github.lil_minion.model.relationship.interaction.InteractionRequestType;
+import com.github.lil_minion.model.relationship.romance.Romance;
 import com.github.lil_minion.server.data.MarriageSavedData;
+import com.github.lil_minion.server.data.RomanceSavedData;
 import com.github.lil_minion.utils.ChatUtil;
 import com.github.lil_minion.utils.InteractionUtil;
 import com.github.lil_minion.utils.MarriageUtil;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+
+import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * Handles player-related events.
@@ -36,11 +41,24 @@ public class PlayerEventHandler {
                     MarriageSavedData.MARRIAGE_PROPOSAL_MAP.put(playerTarget.getUUID(), playerOrigin.getUUID());
 
                     if (playerTarget instanceof ServerPlayer serverPlayerTarget) {
-                        InteractionUtil.interact(playerOrigin, serverPlayerTarget,
-                                ChatUtil.createPlayerMessageComponent(playerOrigin,
-                                        Component.translatable("messages.couples.marry_me"), " "),
-                                InteractionRequestType.MARRIAGE_PROPOSAL
-                        );
+                        Optional<Romance> romanceOpt = RomanceSavedData.ROMANCE_MAP.getOrDefault(playerOrigin.getUUID(), new ArrayList<>())
+                                .stream()
+                                .filter(romanceFromList -> romanceFromList.isPlayerInRelationship(playerTarget))
+                                .findFirst();
+                        if (romanceOpt.isPresent()) {
+                            Romance romance = romanceOpt.get();
+                            if (romance.getHearths() >= 20) {
+                                InteractionUtil.interact(playerOrigin, serverPlayerTarget,
+                                        ChatUtil.createPlayerTranslatableComponent(playerOrigin, "messages.couples.marry_me"),
+                                        InteractionRequestType.MARRIAGE_PROPOSAL
+                                );
+                            } else {
+                                MutableComponent combinedMessage = Component.translatable("messages.couples.not_enough_hearts");
+                                playerOrigin.displayClientMessage(combinedMessage.append(romance.getHearths() + "/20"), false);
+                            }
+                        } else {
+                            playerOrigin.displayClientMessage(Component.translatable("messages.couples.not_in_romance"), false);
+                        }
                     }
                 }
             }

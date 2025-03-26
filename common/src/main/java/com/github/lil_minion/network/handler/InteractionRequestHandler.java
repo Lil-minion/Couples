@@ -17,6 +17,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.component.FireworkExplosion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,30 +49,35 @@ public class InteractionRequestHandler {
         }
     }
 
+    private static void marriageAccepted(Player playerTarget, InteractionRequest request) {
+        List<Romance> list = RomanceSavedData.ROMANCE_MAP.get(playerTarget.getUUID());
 
-    private static void marriageAccepted(Player player, InteractionRequest request) {
-        List<Romance> list = RomanceSavedData.ROMANCE_MAP.get(player.getUUID());
-        Romance previousRomance = null;
+        // Assume the romance exists as it was checked before sending
+        Romance romance = RomanceSavedData.ROMANCE_MAP.getOrDefault(request.recipient(), new ArrayList<>())
+                .stream().filter(r -> r.isPlayerInRelationship(request.sender()))
+                .findFirst().get();
 
-        for (Romance romance : list) {
-            if (romance.isPlayerInRelationship(request.sender())) {
-                previousRomance = romance;
-                break;
-            }
-            if (previousRomance != null && previousRomance.getHearths() == 20) {
-                Marriage marriage = new Marriage(request.sender(),
-                        request.recipient(), player.level().getGameTime());
-                marriage.setTimesKissed(previousRomance.getTimesKissed());
-                marriage.setTimesFlirted(previousRomance.getTimesFlirted());
-                MarriageUtil.updateMarriage(marriage);
-                list.remove(previousRomance);
-                RomanceUtil.updateRomance(previousRomance);
-                if (player instanceof ServerPlayer serverPlayer) {
-                    EffectUtil.spawnParticlesNearby(serverPlayer, ParticleTypes.HEART, 50);
-                    EffectUtil.spawnFireworksNearby(serverPlayer, FireworkExplosion.Shape.LARGE_BALL, 0xdda0dd, 1);
-                    EffectUtil.spawnFireworksNearby(serverPlayer, FireworkExplosion.Shape.LARGE_BALL, 0xdda0dd, 2);
-                    EffectUtil.spawnFireworksNearby(serverPlayer, FireworkExplosion.Shape.LARGE_BALL, 0xdda0dd, 2);
-                    EffectUtil.spawnFireworksNearby(serverPlayer, FireworkExplosion.Shape.LARGE_BALL, 0xdda0dd, 3);
+        // Create marriage and delete romance
+        Marriage marriage = new Marriage(request.sender(),
+                request.recipient(), playerTarget.level().getGameTime());
+        marriage.setTimesKissed(romance.getTimesKissed());
+        marriage.setTimesFlirted(romance.getTimesFlirted());
+        MarriageUtil.updateMarriage(marriage);
+        list.remove(romance);
+        RomanceUtil.updateRomance(romance);
+
+        // Special effects on both players
+        if (playerTarget instanceof ServerPlayer serverPlayerTarget) {
+            Player playerSender = playerTarget.level().getPlayerByUUID(request.sender());
+            if (playerSender instanceof ServerPlayer serverPlayerSender) {
+                FireworkExplosion.Shape shape = FireworkExplosion.Shape.LARGE_BALL;
+                int color = 0xdda0dd;
+                for (ServerPlayer effectPlayer : List.of(serverPlayerSender, serverPlayerTarget)) {
+                    EffectUtil.spawnParticlesNearby(effectPlayer, ParticleTypes.HEART, 50);
+                    EffectUtil.spawnFireworksNearby(effectPlayer, shape, color, 1);
+                    EffectUtil.spawnFireworksNearby(effectPlayer, shape, color, 2);
+                    EffectUtil.spawnFireworksNearby(effectPlayer, shape, color, 2);
+                    EffectUtil.spawnFireworksNearby(effectPlayer, shape, color, 3);
                 }
             }
         }
@@ -84,4 +90,5 @@ public class InteractionRequestHandler {
     private static void kissAccepted() {
 
     }
+
 }
