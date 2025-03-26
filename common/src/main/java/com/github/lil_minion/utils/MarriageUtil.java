@@ -88,7 +88,10 @@ public class MarriageUtil {
      * @return True if a proposal has already been sent, false otherwise.
      */
     public static boolean alreadySentProposal(UUID originPlayerUUID, UUID targetPlayerUUID) {
-        return MarriageSavedData.MARRIAGE_PROPOSAL_MAP.get(targetPlayerUUID).equals(originPlayerUUID);
+        if (MarriageSavedData.MARRIAGE_PROPOSAL_MAP.containsKey(targetPlayerUUID)) {
+            return MarriageSavedData.MARRIAGE_PROPOSAL_MAP.get(targetPlayerUUID) == originPlayerUUID;
+        }
+        return false;
     }
 
     /**
