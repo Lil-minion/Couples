@@ -2,7 +2,7 @@ package com.github.lil_minion.server.data;
 
 import com.github.lil_minion.Couples;
 import com.github.lil_minion.model.relationship.romance.Romance;
-import com.github.lil_minion.utils.RomanceUtil;
+import com.github.lil_minion.utils.relationship.RomanceUtil;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;

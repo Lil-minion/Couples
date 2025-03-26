@@ -3,7 +3,7 @@ package com.github.lil_minion.network.handler;
 import com.github.lil_minion.client.data.InboxVolatileData;
 import com.github.lil_minion.model.mail.Mail;
 import com.github.lil_minion.network.message.MailMessage;
-import com.github.lil_minion.utils.InboxUtil;
+import com.github.lil_minion.utils.network.MessageDecoderUtil;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -21,7 +21,7 @@ public class MailHandler {
      * @param player      the player who received the mail message
      */
     public static void handle(MailMessage mailMessage, Player player) {
-        Mail mail = InboxUtil.decodeMailMessage(mailMessage);
+        Mail mail = MessageDecoderUtil.decode(mailMessage);
 
         if (player instanceof LocalPlayer localPlayer) {
             //  When mail is received by player notify player

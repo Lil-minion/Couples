@@ -1,7 +1,7 @@
 package com.github.lil_minion.client.screen;
 
 import com.github.lil_minion.model.relationship.interaction.InteractionRequest;
-import com.github.lil_minion.utils.InteractionUtil;
+import com.github.lil_minion.utils.network.MessageSenderUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -40,11 +40,11 @@ public class InteractionRequestScreen extends Screen {
     protected void init() {
         // Accept button
         this.addRenderableWidget(Button.builder(Component.translatable("mco.invites.button.accept"), button -> {
-            InteractionUtil.sendInteractionRequest(player, new InteractionRequest(
+            MessageSenderUtil.sendInteractionRequest(player, new InteractionRequest(
                     request.sender(), request.recipient(), request.timeStamp(),
                     request.interactionRequestType(), request.message(), true
             ));
-            InteractionUtil.sendInteractionRequest(player, request);
+            MessageSenderUtil.sendInteractionRequest(player, request);
             this.onClose();
         }).bounds(this.width / 2 - 100, this.height / 2 + 20, 100, 20).build());
 

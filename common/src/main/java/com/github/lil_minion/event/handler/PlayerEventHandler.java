@@ -8,9 +8,9 @@ import com.github.lil_minion.server.data.InteractionVolatileData;
 import com.github.lil_minion.server.data.MarriageSavedData;
 import com.github.lil_minion.server.data.RomanceSavedData;
 import com.github.lil_minion.utils.ChatUtil;
-import com.github.lil_minion.utils.InboxUtil;
-import com.github.lil_minion.utils.InteractionUtil;
-import com.github.lil_minion.utils.MarriageUtil;
+import com.github.lil_minion.utils.relationship.InteractionUtil;
+import com.github.lil_minion.utils.relationship.MarriageUtil;
+import com.github.lil_minion.utils.network.MessageSenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
@@ -78,7 +78,7 @@ public class PlayerEventHandler {
 
     public static void onPlayerJoinServer(Player player, Level level) {
         if (player instanceof ServerPlayer serverPlayer) {
-            InboxUtil.sendInbox(serverPlayer);
+            MessageSenderUtil.sendInbox(serverPlayer);
         }
     }
 

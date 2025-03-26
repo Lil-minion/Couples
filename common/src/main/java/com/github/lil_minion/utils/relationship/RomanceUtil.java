@@ -1,38 +1,16 @@
-package com.github.lil_minion.utils;
+package com.github.lil_minion.utils.relationship;
 
 import com.github.lil_minion.model.relationship.romance.Romance;
 import com.github.lil_minion.server.data.RomanceSavedData;
-import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Utility class for managing romance relationships between players.
  * This class provides methods to check, update, and load romance data.
  */
 public class RomanceUtil {
-
-    /**
-     * Checks if a romance relationship exists for the given player UUID.
-     *
-     * @param playerUUID The UUID of the player to check.
-     * @return True if a romance relationship exists, false otherwise.
-     */
-    public static boolean isRomance(UUID playerUUID) {
-        return RomanceSavedData.ROMANCE_MAP.containsKey(playerUUID);
-    }
-
-    /**
-     * Checks if a romance relationship exists for the given player.
-     *
-     * @param player The player to check.
-     * @return True if a romance relationship exists, false otherwise.
-     */
-    public static boolean isRomance(Player player) {
-        return isRomance(player.getUUID());
-    }
 
     /**
      * Updates the ROMANCE_MAP with the given romance instance and optionally marks it as dirty.

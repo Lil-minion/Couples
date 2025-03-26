@@ -7,9 +7,9 @@ import com.github.lil_minion.model.relationship.romance.Romance;
 import com.github.lil_minion.network.message.InteractionRequestMessage;
 import com.github.lil_minion.server.data.RomanceSavedData;
 import com.github.lil_minion.utils.EffectUtil;
-import com.github.lil_minion.utils.InteractionUtil;
-import com.github.lil_minion.utils.MarriageUtil;
-import com.github.lil_minion.utils.RomanceUtil;
+import com.github.lil_minion.utils.relationship.MarriageUtil;
+import com.github.lil_minion.utils.relationship.RomanceUtil;
+import com.github.lil_minion.utils.network.MessageDecoderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
@@ -34,7 +34,7 @@ public class InteractionRequestHandler {
      */
     public static void handle(InteractionRequestMessage requestMessage, Player player) {
 
-        InteractionRequest request = InteractionUtil.decodeInteractionRequestMessage(requestMessage);
+        InteractionRequest request = MessageDecoderUtil.decode(requestMessage);
 
         if (player instanceof LocalPlayer localPlayer) {
             InteractionRequestScreen screen = new InteractionRequestScreen(request, localPlayer);

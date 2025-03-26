@@ -1,8 +1,9 @@
-package com.github.lil_minion.utils;
+package com.github.lil_minion.utils.relationship;
 
 import com.github.lil_minion.model.relationship.marriage.Marriage;
 import com.github.lil_minion.server.data.InteractionVolatileData;
 import com.github.lil_minion.server.data.MarriageSavedData;
+import com.github.lil_minion.utils.ChatUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 

@@ -1,16 +1,18 @@
 package com.github.lil_minion.command;
 
+import com.github.lil_minion.model.mail.Inbox;
 import com.github.lil_minion.model.mail.Mail;
 import com.github.lil_minion.model.mail.MailType;
 import com.github.lil_minion.model.relationship.interaction.InteractionRequestType;
 import com.github.lil_minion.model.relationship.marriage.MarriageInteraction;
 import com.github.lil_minion.model.relationship.marriage.MarriageInteractionType;
 import com.github.lil_minion.model.relationship.marriage.Marriage;
+import com.github.lil_minion.server.data.InboxSavedData;
 import com.github.lil_minion.server.data.MarriageSavedData;
 import com.github.lil_minion.utils.ChatUtil;
-import com.github.lil_minion.utils.InboxUtil;
-import com.github.lil_minion.utils.InteractionUtil;
-import com.github.lil_minion.utils.MarriageUtil;
+import com.github.lil_minion.utils.relationship.InteractionUtil;
+import com.github.lil_minion.utils.relationship.MarriageUtil;
+import com.github.lil_minion.utils.network.MessageSenderUtil;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -207,7 +209,7 @@ public class CoupleCommand {
     private static int mail(CommandContext<CommandSourceStack> context) {
         Player player = context.getSource().getPlayer();
         if (player instanceof ServerPlayer serverPlayer) {
-            InboxUtil.openInboxScreen(serverPlayer);
+            MessageSenderUtil.openInboxScreen(serverPlayer);
             return 1;
         }
 
@@ -247,7 +249,14 @@ public class CoupleCommand {
 
                 // Send mail, remove book, and send mail_sent message to target
                 if (target instanceof ServerPlayer serverPlayerTarget) {
-                    InboxUtil.sendMail(serverPlayerTarget, mail, false);
+                    MessageSenderUtil.sendMail(serverPlayerTarget, mail, false);
+
+                    // Store email on server for persistence
+                    Inbox inbox = InboxSavedData.PLAYER_INBOX_MAP.getOrDefault(mail.recipient(),
+                            new Inbox(mail.recipient()));
+                    inbox.addMail(mail);
+                    InboxSavedData.PLAYER_INBOX_MAP.put(mail.recipient(), inbox);
+                    InboxSavedData.INSTANCE.setDirty();
                 }
                 mainHandStack.setCount(0);
                 player.displayClientMessage(Component.translatable("messages.couples.mail_sent"), false);
