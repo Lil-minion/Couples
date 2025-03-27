@@ -7,6 +7,7 @@ import com.github.lil_minion.network.message.InboxMessage;
 import com.github.lil_minion.network.message.InteractionRequestMessage;
 import com.github.lil_minion.network.message.MailMessage;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class MessageEncoderUtil {
         List<Mail> mails = inbox.getMails();
         List<MailMessage> mailMessages = new ArrayList<>();
 
-        mails.forEach(mail -> mailMessages.add(MessageEncoderUtil.encode(mail, false)));
+        mails.forEach(mail -> mailMessages.add(MessageEncoderUtil.encode(mail)));
         return new InboxMessage(mailMessages);
     }
 
@@ -46,19 +47,18 @@ public class MessageEncoderUtil {
      * Creates a {@link MailMessage} from a {@link Mail} object.
      *
      * @param mail     The {@link Mail} object to convert.
-     * @param toServer Indicates if the message is to be sent to the server.
      * @return A {@link MailMessage} representing the provided Mail.
      */
-    public static MailMessage encode(Mail mail, boolean toServer) {
+    public static MailMessage encode(Mail mail) {
         List<String> message = new ArrayList<>();
         mail.message().forEach(component -> message.add(component.getString()));
         return new MailMessage(
                 Optional.of(mail.sender().toString()),
+                Optional.of(mail.senderName()),
                 mail.recipient().toString(),
                 mail.type().getType(),
                 mail.timestamp(),
-                message,
-                toServer
+                message
         );
     }
 }

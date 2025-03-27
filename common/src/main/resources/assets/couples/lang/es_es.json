@@ -8,9 +8,12 @@
   "messages.couples.you_got_mail": "Tienes correo, comprueba tu bandeja de entrada.",
   "messages.couples.mail_sent": "Tu carta ha sido enviada.",
   "messages.couples.need_written_book": "Necesitas un libro escrito en tu mano para enviar un correo.",
+  "messages.couples.book_empty": "No se puede enviar un libro en blanco",
   "messages.couples.not_enough_hearts": "Necesitas 20 corazones para casarte. Tienes",
   "messages.couples.not_in_romance":  "Necesitas estar en una relación romántica para casarte con esta persona.",
   "messages.couples.proposal_cooldown": "Ya has intentado casarte hoy, prueba otra vez mañana.",
   "gui.screen.couples.mail_screen": "Bandeja de entrada",
+  "gui.screen.couples.no_mail": "No tienes correo",
+  "gui.inbox.days": "Dias",
   "sound.couples.kiss": "Beso"
 }

@@ -8,9 +8,12 @@
   "messages.couples.you_got_mail": "You got mail, check your inbox.",
   "messages.couples.mail_sent": "Your letter has been sent.",
   "messages.couples.need_written_book": "You need a written book in your hand to send an email.",
+  "messages.couples.book_empty": "You cannot send empty books",
   "messages.couples.not_enough_hearts": "You need have 20 hearths to propose marriage. You have",
   "messages.couples.not_in_romance": "You need to be in a romantic relationship to marry this person",
   "messages.couples.proposal_cooldown": "You already proposes today, try again tomorrow.",
   "gui.screen.couples.mail_screen": "Inbox",
+  "gui.screen.couples.no_mail": "You don't have mail",
+  "gui.inbox.days": "Days",
   "sound.couples.kiss": "Kiss"
 }

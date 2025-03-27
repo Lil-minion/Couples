@@ -18,6 +18,7 @@ import java.util.UUID;
  * @param message   A list of {@link Component} objects representing the content of the mail message.
  */
 public record Mail(@Nullable UUID sender,
+                   @Nullable String senderName,
                    @NotNull UUID recipient,
                    @NotNull MailType type,
                    @NotNull Long timestamp,

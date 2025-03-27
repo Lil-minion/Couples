@@ -24,6 +24,7 @@ public class MessageDecoderUtil {
      */
     public static Mail decode(MailMessage mailMessage) {
         UUID senderUUID = UUID.fromString(mailMessage.sender().orElse(null));
+        String senderName = mailMessage.senderName().orElse("??????");
         UUID recipientUUID = UUID.fromString(mailMessage.recipient());
         MailType type = MailType.fromString(mailMessage.mailType());
 
@@ -32,7 +33,7 @@ public class MessageDecoderUtil {
             messageList.add(Component.literal(messageStr));
         }
 
-        return new Mail(senderUUID, recipientUUID, type, mailMessage.timestamp(), messageList);
+        return new Mail(senderUUID, senderName, recipientUUID, type, mailMessage.timestamp(), messageList);
     }
 
     /**

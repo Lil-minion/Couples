@@ -19,11 +19,11 @@ import java.util.Optional;
  */
 public record MailMessage(
         Optional<String> sender,
+        Optional<String> senderName,
         String recipient,
         String mailType,
         long timestamp,
-        List<String> message,
-        boolean toServer
+        List<String> message
 ) implements CustomPacketPayload {
 
     public static final ResourceLocation MESSAGE_ID = new ResourceLocation(Couples.MOD_ID + ":send_mail");
@@ -32,6 +32,7 @@ public record MailMessage(
     // Define the codec with the values of the message
     public static final StreamCodec<RegistryFriendlyByteBuf, MailMessage> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.optional(ByteBufCodecs.STRING_UTF8), MailMessage::sender,
+            ByteBufCodecs.optional(ByteBufCodecs.STRING_UTF8), MailMessage::senderName,
             ByteBufCodecs.STRING_UTF8, MailMessage::recipient,
             ByteBufCodecs.STRING_UTF8, MailMessage::mailType,
             ByteBufCodecs.VAR_LONG, MailMessage::timestamp,
@@ -41,7 +42,6 @@ public record MailMessage(
                     ByteBufCodecs.STRING_UTF8,
                     16
             ), MailMessage::message,
-            ByteBufCodecs.BOOL, MailMessage::toServer,
             MailMessage::new
     );
 

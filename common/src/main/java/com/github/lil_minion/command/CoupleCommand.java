@@ -32,7 +32,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.WrittenBookContent;
 
-
 /**
  * Handles commands related to couple interactions, such as flirting, kissing, sending mail, and divorcing.
  * <p>
@@ -121,13 +120,11 @@ public class CoupleCommand {
             sendMessage = true;
         }
 
-
         if (sendMessage) {
             if (playerTarget instanceof ServerPlayer serverPlayerTarget) {
                 InteractionUtil.interact(playerSource, serverPlayerTarget, message, InteractionRequestType.FLIRT_REQUEST);
             }
         }
-
 
         return 1;
     }
@@ -149,12 +146,11 @@ public class CoupleCommand {
 
         // Try to assign message or use default
         Component message;
-        if (useDefault){
+        if (useDefault) {
             message = ChatUtil.createPlayerMessageComponent(playerSource, Component.translatable("messages.couples.kiss_me"), " ");
-        } else{
+        } else {
             message = ChatUtil.createPlayerMessageComponent(playerSource, MessageArgument.getMessage(context, "Message"), ": ");
         }
-
 
         boolean sendMessage = false;
 
@@ -234,12 +230,20 @@ public class CoupleCommand {
 
                 // Get content from book in hand and write the format the MailMessage class requires
                 WrittenBookContent content = mainHandStack.getComponents().get(DataComponents.WRITTEN_BOOK_CONTENT);
-                List<Component> messageOriginal = content.getPages(false);
+                List<Component> messageOriginal = content.getPages(false).stream()
+                        .filter(component -> !component.getString().isBlank())
+                        .toList();
+
+                if (messageOriginal.isEmpty()) {
+                    player.displayClientMessage(Component.translatable("messages.couples.book_empty"), false);
+                    return 0;
+                }
 
                 // Create Mail
                 Player target = EntityArgument.getPlayer(context, "Player");
                 Mail mail = new Mail(
                         serverPlayer.getUUID(),
+                        serverPlayer.getName().getString(),
                         target.getUUID(),
                         MailType.MAIL,
                         context.getSource().getLevel().getGameTime(),
@@ -248,7 +252,7 @@ public class CoupleCommand {
 
                 // Send mail, remove book, and send mail_sent message to target
                 if (target instanceof ServerPlayer serverPlayerTarget) {
-                    MessageSenderUtil.sendMail(serverPlayerTarget, mail, false);
+                    MessageSenderUtil.sendMail(serverPlayerTarget, mail);
 
                     // Store email on server for persistence
                     Inbox inbox = InboxSavedData.PLAYER_INBOX_MAP.getOrDefault(mail.recipient(),

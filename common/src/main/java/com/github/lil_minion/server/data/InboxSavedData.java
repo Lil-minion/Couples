@@ -97,12 +97,13 @@ public class InboxSavedData extends SavedData {
      */
     private static Mail loadMail(CompoundTag mailTag) {
         UUID sender = mailTag.getUUID("sender");
+        String senderName = mailTag.getString("senderName");
         UUID recipient = mailTag.getUUID("recipient");
         MailType type = MailType.fromString(mailTag.getString("type"));
         Long timestamp = mailTag.getLong("timestamp");
         List<Component> message = loadMailMessage(mailTag.getCompound("pages"));
 
-        return new Mail(sender, recipient, type, timestamp, message);
+        return new Mail(sender, senderName, recipient, type, timestamp, message);
     }
 
     private static List<Component> loadMailMessage(CompoundTag pagesTag) {
@@ -170,6 +171,7 @@ public class InboxSavedData extends SavedData {
     private CompoundTag saveMail(Mail mail) {
         CompoundTag mailTag = new CompoundTag();
         mailTag.putUUID("sender", mail.sender());
+        mailTag.putString("senderName", mail.senderName());
         mailTag.putUUID("recipient", mail.recipient());
         mailTag.putString("type", mail.type().getType());
         mailTag.putLong("timestamp", mail.timestamp());

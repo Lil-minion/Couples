@@ -16,10 +16,9 @@ public class MessageSenderUtil {
      *
      * @param player   The player to send the mail to.
      * @param mail     The Mail object to send.
-     * @param toServer Indicates if the message is to be sent to the server.
      */
-    public static void sendMail(ServerPlayer player, Mail mail, boolean toServer) {
-        UploadedMethods.sendMessageToClient(player, MessageEncoderUtil.encode(mail, toServer));
+    public static void sendMail(ServerPlayer player, Mail mail) {
+        UploadedMethods.sendMessageToClient(player, MessageEncoderUtil.encode(mail));
     }
 
     /**
