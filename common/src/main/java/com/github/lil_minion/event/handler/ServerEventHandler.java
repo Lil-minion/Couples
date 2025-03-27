@@ -40,7 +40,6 @@ public class ServerEventHandler {
             for
              (Marriage marriage : marriages) {
                 marriage.setHearths(marriage.getHearths() - 1);
-                marriage.setHeartsLost(marriage.getHeartsLost() + 1);
                 MarriageUtil.updateMarriage(marriage);
             }
         }

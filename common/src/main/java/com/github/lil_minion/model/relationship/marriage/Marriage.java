@@ -35,6 +35,17 @@ public class Marriage extends Couple {
         this.timeOfMarriage = timeOfMarriage;
     }
 
+    @Override
+    public void setHearths(int hearths) {
+        int hearthChanged = hearths - getHearths();
+        if (hearthChanged > 0) {
+            setHearthsEarned(hearthsEarned + hearthChanged);
+        } else if (hearthChanged < 0) {
+            setHeartsLost(heartsLost - hearthChanged);
+        }
+        super.setHearths(hearths);
+    }
+
     /**
      * Returns the list of interactions that have occurred in this marriage.
      *
